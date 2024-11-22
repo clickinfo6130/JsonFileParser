@@ -76,25 +76,16 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.dbgVision_on = new System.Windows.Forms.DataGridView();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.dbgVision_off = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dbglengthValues = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.dbgrotationX = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.dbgrotationY = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.dbgrotationZ = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.tvSeriesOption = new System.Windows.Forms.TreeView();
@@ -107,6 +98,15 @@
             this.tbJsonFileFolder = new System.Windows.Forms.TextBox();
             this.btnSeriesNameSave = new System.Windows.Forms.Button();
             this.btnSeriesLoad = new System.Windows.Forms.Button();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgposwidthLength)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -542,7 +542,7 @@
             this.groupBox6.Controls.Add(this.dbgVision_on);
             this.groupBox6.Location = new System.Drawing.Point(597, 493);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(185, 138);
+            this.groupBox6.Size = new System.Drawing.Size(224, 138);
             this.groupBox6.TabIndex = 17;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "visible_on";
@@ -555,20 +555,15 @@
             this.dbgVision_on.Location = new System.Drawing.Point(14, 20);
             this.dbgVision_on.Name = "dbgVision_on";
             this.dbgVision_on.RowTemplate.Height = 23;
-            this.dbgVision_on.Size = new System.Drawing.Size(159, 101);
+            this.dbgVision_on.Size = new System.Drawing.Size(195, 101);
             this.dbgVision_on.TabIndex = 0;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "item";
-            this.Column11.Name = "Column11";
             // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.dbgVision_off);
-            this.groupBox7.Location = new System.Drawing.Point(796, 493);
+            this.groupBox7.Location = new System.Drawing.Point(842, 493);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(185, 138);
+            this.groupBox7.Size = new System.Drawing.Size(235, 138);
             this.groupBox7.TabIndex = 18;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "visible_off";
@@ -578,23 +573,18 @@
             this.dbgVision_off.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dbgVision_off.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1});
-            this.dbgVision_off.Location = new System.Drawing.Point(14, 20);
+            this.dbgVision_off.Location = new System.Drawing.Point(16, 20);
             this.dbgVision_off.Name = "dbgVision_off";
             this.dbgVision_off.RowTemplate.Height = 23;
-            this.dbgVision_off.Size = new System.Drawing.Size(159, 101);
+            this.dbgVision_off.Size = new System.Drawing.Size(199, 101);
             this.dbgVision_off.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "item";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.dbglengthValues);
-            this.groupBox8.Location = new System.Drawing.Point(987, 493);
+            this.groupBox8.Location = new System.Drawing.Point(1083, 493);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(185, 138);
+            this.groupBox8.Size = new System.Drawing.Size(229, 138);
             this.groupBox8.TabIndex = 19;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "lengthValues";
@@ -608,21 +598,15 @@
             this.dbglengthValues.Location = new System.Drawing.Point(14, 20);
             this.dbglengthValues.Name = "dbglengthValues";
             this.dbglengthValues.RowTemplate.Height = 23;
-            this.dbglengthValues.Size = new System.Drawing.Size(159, 101);
+            this.dbglengthValues.Size = new System.Drawing.Size(199, 101);
             this.dbglengthValues.TabIndex = 0;
-            this.dbglengthValues.Visible = false;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "item";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.dbgrotationX);
             this.groupBox9.Location = new System.Drawing.Point(391, 651);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(241, 138);
+            this.groupBox9.Size = new System.Drawing.Size(285, 138);
             this.groupBox9.TabIndex = 18;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "rotationX";
@@ -636,26 +620,15 @@
             this.dbgrotationX.Location = new System.Drawing.Point(14, 20);
             this.dbgrotationX.Name = "dbgrotationX";
             this.dbgrotationX.RowTemplate.Height = 23;
-            this.dbgrotationX.Size = new System.Drawing.Size(207, 101);
+            this.dbgrotationX.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationX.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "item";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "deg";
-            this.Column12.Name = "Column12";
-            this.Column12.Width = 60;
             // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.dbgrotationY);
-            this.groupBox10.Location = new System.Drawing.Point(661, 651);
+            this.groupBox10.Location = new System.Drawing.Point(710, 651);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(241, 138);
+            this.groupBox10.Size = new System.Drawing.Size(285, 138);
             this.groupBox10.TabIndex = 19;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "rotationY";
@@ -669,26 +642,15 @@
             this.dbgrotationY.Location = new System.Drawing.Point(14, 20);
             this.dbgrotationY.Name = "dbgrotationY";
             this.dbgrotationY.RowTemplate.Height = 23;
-            this.dbgrotationY.Size = new System.Drawing.Size(207, 101);
+            this.dbgrotationY.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationY.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "item";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "deg";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Width = 60;
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.dbgrotationZ);
-            this.groupBox11.Location = new System.Drawing.Point(931, 651);
+            this.groupBox11.Location = new System.Drawing.Point(1027, 651);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(241, 138);
+            this.groupBox11.Size = new System.Drawing.Size(285, 138);
             this.groupBox11.TabIndex = 19;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "rotationZ";
@@ -702,19 +664,8 @@
             this.dbgrotationZ.Location = new System.Drawing.Point(14, 20);
             this.dbgrotationZ.Name = "dbgrotationZ";
             this.dbgrotationZ.RowTemplate.Height = 23;
-            this.dbgrotationZ.Size = new System.Drawing.Size(207, 101);
+            this.dbgrotationZ.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationZ.TabIndex = 0;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "item";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "deg";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.Width = 60;
             // 
             // label12
             // 
@@ -842,11 +793,65 @@
             this.btnSeriesLoad.UseVisualStyleBackColor = true;
             this.btnSeriesLoad.Click += new System.EventHandler(this.btnSeriesLoad_Click);
             // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "item";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "item";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "item";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "item";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "deg";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "item";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 150;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "deg";
+            this.Column12.Name = "Column12";
+            this.Column12.Width = 60;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "item";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "deg";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 60;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1194, 801);
+            this.ClientSize = new System.Drawing.Size(1359, 801);
             this.Controls.Add(this.btnSeriesLoad);
             this.Controls.Add(this.btnSeriesNameSave);
             this.Controls.Add(this.tbJsonFileFolder);
@@ -959,25 +964,16 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.DataGridView dbgVision_on;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.DataGridView dbgVision_off;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.DataGridView dbglengthValues;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.DataGridView dbgrotationX;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.DataGridView dbgrotationY;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.DataGridView dbgrotationZ;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TreeView tvSeriesOption;
@@ -990,6 +986,15 @@
         private System.Windows.Forms.TextBox tbJsonFileFolder;
         private System.Windows.Forms.Button btnSeriesNameSave;
         private System.Windows.Forms.Button btnSeriesLoad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
     }
 }
 

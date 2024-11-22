@@ -98,6 +98,16 @@ namespace JsonFileParsing
             public List<List<string>> rotationX { get; set; }
             public List<List<string>> rotationY { get; set; }
             public List<List<string>> rotationZ { get; set; }
+            // 아래 부분 잠시 막음.... 2024.11.22
+            //public List<List<rotatorvalue>> rotationX { get; set; }
+            //public List<List<rotatorvalue>> rotationY { get; set; }
+            //public List<List<rotatorvalue>> rotationZ { get; set; }
+        }
+
+        public class rotatorvalue
+        {
+            public string item { get; set; }
+            public int nrotatorvalue { get; set; }
         }
         //------------------------------------------//
 
@@ -337,16 +347,16 @@ namespace JsonFileParsing
 
             if (series2.camera_center.Count > 0)
             {
-                tbCamera_positionX.Text = series2.camera_center[0].ToString();
-                tbCamera_positionY.Text = series2.camera_center[1].ToString();
-                tbCamera_positionZ.Text = series2.camera_center[2].ToString();
+                tbcamera_centerX.Text = series2.camera_center[0].ToString();
+                tbcamera_centerY.Text = series2.camera_center[1].ToString();
+                tbcamera_centerZ.Text = series2.camera_center[2].ToString();
             }
 
             if (series2.camera_position.Count > 0)
             {
-                tbcamera_centerX.Text = series2.camera_position[0].ToString();
-                tbcamera_centerY.Text = series2.camera_position[1].ToString();
-                tbcamera_centerZ.Text = series2.camera_position[2].ToString();
+                tbCamera_positionX.Text = series2.camera_position[0].ToString();
+                tbCamera_positionY.Text = series2.camera_position[1].ToString();
+                tbCamera_positionZ.Text = series2.camera_position[2].ToString();
             }
 
         }
@@ -414,6 +424,10 @@ namespace JsonFileParsing
                         rotationX = new List<List<string>>(), // Initialize as needed
                         rotationY = new List<List<string>>(), // Initialize as needed
                         rotationZ = new List<List<string>>() // Initialize as needed
+                        //2024.11.22 잠시막음..
+                        //rotationX = new List<List<rotatorvalue>> (), // Initialize as needed
+                        //rotationY = new List<List<rotatorvalue>>(), // Initialize as needed
+                        //rotationZ = new List<List<rotatorvalue>>() // Initialize as needed
                     }).ToList(),
                     type = o.type,
                 }).ToList()
@@ -453,7 +467,8 @@ namespace JsonFileParsing
                         if (dgposwidthLength.Rows[i].Cells[j].Value != null)
                         {
                             sdata = dgposwidthLength.Rows[i].Cells[j].Value.ToString().Trim();
-                            pl.solid.Add(sdata);
+                            if(sdata.Trim() != "")
+                                pl.solid.Add(sdata);
                         }                          
                     }
                     pwl.Add(pl);                        
@@ -509,7 +524,7 @@ namespace JsonFileParsing
                     WriteIndented = true
                 };
                 string jsonString = JsonSerializer.Serialize(root1, optios);
-                string sfilename = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\" + series1.name + ".json";
+                string sfilename = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\개별파일\\" + series1.name + ".json";
                 File.WriteAllText(sfilename, jsonString);
                 count++;
                 
@@ -567,7 +582,10 @@ namespace JsonFileParsing
 
                         //-------vision on
                         dbgVision_on.Rows.Clear();
-                        int ncnt1 = value[i].visible_on.Count;
+
+                        int ncnt1 = 0;
+                        if(value[i].visible_on != null)
+                            ncnt1= value[i].visible_on.Count;
                         if(ncnt1>0)
                         {
                             for (int n = 0; n < ncnt1; n++)
@@ -576,7 +594,9 @@ namespace JsonFileParsing
 
                         //-------vision ooff
                         dbgVision_off.Rows.Clear();
-                        ncnt1 = value[i].visible_off.Count;
+                        ncnt1 = 0;
+                        if (value[i].visible_off != null)
+                            ncnt1 = value[i].visible_off.Count;
                         if (ncnt1 > 0)
                         {
                             for (int n = 0; n < ncnt1; n++)
@@ -584,8 +604,10 @@ namespace JsonFileParsing
                         }
 
                         //-------lengthValue
-                        dbglengthValues.Rows.Clear();
-                        ncnt1 = value[i].lengthValues.Count;
+                        dbglengthValues.Rows.Clear();     
+                        ncnt1 = 0;
+                        if (value[i].lengthValues != null)
+                            ncnt1 = value[i].lengthValues.Count;
                         if (ncnt1 > 0)
                         {
                             for (int n = 0; n < ncnt1; n++)
@@ -594,19 +616,37 @@ namespace JsonFileParsing
 
                         //-------rotation X
                         dbgrotationX.Rows.Clear();
-                        ncnt1 = value[i].rotationX.Count;
+                        ncnt1 = 0;
+                        int ncolcnt = dbgrotationX.ColumnCount;
+                        if (ncolcnt > 2) ncolcnt = 2;  // 현재는  항목이 2개이기에.
+                        string[] data1 = new string[ncolcnt];
+
+                        if (value[i].rotationX != null)
+                            ncnt1 = value[i].rotationX.Count;
                         if (ncnt1 > 0)
                         {
                             for (int n = 0; n < ncnt1; n++)
                             {
                                 List<string> element = value[i].rotationX[n];
-                                dbgrotationX.Rows.Add(element[0], element[1]);                                
-                            }                                
+                                dbgrotationX.Rows.Add(element[0], element[1]);
+                            }
+                            //for (int n = 0; n < ncnt1; n++)
+                            //{
+                            //    int ircnt = value[i].rotationX[0].Count;
+                            //    for(int k=0;k<ircnt;k++)
+                            //    {
+                            //        data1[0] = value[i].rotationX[n][k].item;
+                            //        data1[1] = value[i].rotationX[n][k].nrotatorvalue.ToString();
+                            //        dbgrotationX.Rows.Add(data1);
+                            //    }                             
+                            //}                                
                         }
 
                         //-------rotation Y
                         dbgrotationY.Rows.Clear();
-                        ncnt1 = value[i].rotationY.Count;
+                        ncnt1 = 0;
+                        if (value[i].rotationY != null)
+                            ncnt1 = value[i].rotationY.Count;
                         if (ncnt1 > 0)
                         {
                             for (int n = 0; n < ncnt1; n++)
@@ -614,11 +654,23 @@ namespace JsonFileParsing
                                 List<string> element = value[i].rotationY[n];
                                 dbgrotationY.Rows.Add(element[0], element[1]);
                             }
+                            //for (int n = 0; n < ncnt1; n++)
+                            //{
+                            //    int ircnt = value[i].rotationY[0].Count;
+                            //    for (int k = 0; k < ircnt; k++)
+                            //    {
+                            //        data1[0] = value[i].rotationY[n][k].item;
+                            //        data1[1] = value[i].rotationY[n][k].nrotatorvalue.ToString();
+                            //        dbgrotationY.Rows.Add(data1);
+                            //    }
+                            //}
                         }
 
                         //-------rotation Z
                         dbgrotationZ.Rows.Clear();
-                        ncnt1 = value[i].rotationZ.Count;
+                        ncnt1 = 0;
+                        if (value[i].rotationZ != null)
+                            ncnt1 = value[i].rotationZ.Count;
                         if (ncnt1 > 0)
                         {
                             for (int n = 0; n < ncnt1; n++)
@@ -626,6 +678,16 @@ namespace JsonFileParsing
                                 List<string> element = value[i].rotationZ[n];
                                 dbgrotationZ.Rows.Add(element[0], element[1]);
                             }
+                            //for (int n = 0; n < ncnt1; n++)
+                            //{
+                            //    int ircnt = value[i].rotationZ[0].Count;
+                            //    for (int k = 0; k < ircnt; k++)
+                            //    {
+                            //        data1[0] = value[i].rotationZ[n][k].item;
+                            //        data1[1] = value[i].rotationZ[n][k].nrotatorvalue.ToString();
+                            //        dbgrotationZ.Rows.Add(data1);
+                            //    }
+                            //}
                         }
 
                         break;
@@ -648,8 +710,12 @@ namespace JsonFileParsing
                 {
                     int iFind = sValueName.IndexOf(':');
                     string sTemp = "";
-                    sTemp = sValueName.Substring(0, iFind);
-                    if(sTemp.Trim() != "")
+                    if (iFind >= 0)
+                        sTemp = sValueName.Substring(0, iFind);
+                    else
+                        sTemp = sValueName;
+
+                    if (sTemp.Trim() != "")
                         LoadSeriesOptionValue(option1.values, true, sTemp);
                     backSelectOption = option1;
                     backSelectOptionValueName = sTemp;
@@ -812,9 +878,22 @@ namespace JsonFileParsing
                             if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
                             {
                                 List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationX.Add(element);                             
+                                value1.rotationX.Add(element);
                             }
                         }
+                        //        List<rotatorvalue> elementX = new List<rotatorvalue>();
+                        //        for (int n = 0; n < ncnt1; n++)
+                        //        {
+                        //            if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
+                        //            {
+                        //                rotatorvalue _value = new rotatorvalue();
+                        //                _value.item = dbgrotationX.Rows[n].Cells[0].Value.ToString();
+                        //                _value.nrotatorvalue = int.Parse(dbgrotationX.Rows[n].Cells[1].Value.ToString());
+                        //                //  List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };                                
+                        //                elementX.Add(_value);                        
+                        //            }
+                        //        }
+                        ///       value1.rotationX.Add(elementX);
                     }
 
                     ////-------rotation Y
@@ -831,6 +910,19 @@ namespace JsonFileParsing
                                 value1.rotationY.Add(element);
                             }
                         }
+                        //List<rotatorvalue> elementY = new List<rotatorvalue>();
+                        //for (int n = 0; n < ncnt1; n++)
+                        //{
+                        //    if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
+                        //    {
+                        //        rotatorvalue _value = new rotatorvalue();
+                        //        _value.item = dbgrotationY.Rows[n].Cells[0].Value.ToString();
+                        //        _value.nrotatorvalue = int.Parse(dbgrotationY.Rows[n].Cells[1].Value.ToString());
+                        //        //List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
+                        //        elementY.Add(_value);
+                        //    }
+                        //}
+                        //value1.rotationY.Add(elementY);
                     }
 
                     ////-------rotation Z
@@ -847,6 +939,19 @@ namespace JsonFileParsing
                                 value1.rotationZ.Add(element);
                             }
                         }
+                        //List<rotatorvalue> elementZ = new List<rotatorvalue>();
+                        //for (int n = 0; n < ncnt1; n++)
+                        //{
+                        //    if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
+                        //    {
+                        //        rotatorvalue _value = new rotatorvalue();
+                        //        _value.item = dbgrotationZ.Rows[n].Cells[0].Value.ToString();
+                        //        _value.nrotatorvalue = int.Parse(dbgrotationZ.Rows[n].Cells[1].Value.ToString());
+                        //        //List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
+                        //        elementZ.Add(_value);
+                        //    }
+                        //}
+                        //value1.rotationZ.Add(elementZ);
                     }
 
                     break;
