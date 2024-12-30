@@ -18,7 +18,7 @@ namespace JsonFileParsing
 
     public partial class Form1 : Form
     {
-        const int PART_SERIES_FILELOAD = 1;   // 1: 개별 파일 로드 하는것, 2 : 하나의 파일 사용
+        int PART_SERIES_FILELOAD = 1;   // 1: 개별 파일 로드 하는것, 2 : 하나의 파일 사용
         public class Series
         {
             public string name { get; set; }
@@ -160,6 +160,7 @@ namespace JsonFileParsing
 
     private void btn_JsonFile_Read_Click(object sender, EventArgs e)
         {
+            PART_SERIES_FILELOAD = 2;
             OpenFileDialog ofd = new OpenFileDialog();
 
             ofd.DefaultExt = "*.json";
@@ -385,7 +386,17 @@ namespace JsonFileParsing
                     WriteIndented = true
                 };
                 string jsonString = JsonSerializer.Serialize(root1, optios);
-                string sfilename = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\개별파일\\" + series1.name + ".json";
+                string sfilename1 = series1.name;
+                int npos = 0;
+                char replacement = '_';
+
+                int iFind = -1;
+                iFind = sfilename1.IndexOf('/');
+                if (iFind >= 0)
+                    sfilename1 = sfilename1.Replace('/', '_');
+
+
+                string sfilename = tbJsonFileFolder.Text + "\\" + sfilename1 + ".json";
                 File.WriteAllText(sfilename, jsonString);
                 count++;
             }
@@ -524,7 +535,9 @@ namespace JsonFileParsing
                     WriteIndented = true
                 };
                 string jsonString = JsonSerializer.Serialize(root1, optios);
-                string sfilename = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\개별파일\\" + series1.name + ".json";
+
+                //string sfilename = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\개별파일\\" + series1.name + ".json";
+                string sfilename = tbJsonFileFolder.Text + "\\" + series1.name + ".json";
                 File.WriteAllText(sfilename, jsonString);
                 count++;
                 
@@ -826,7 +839,10 @@ namespace JsonFileParsing
         private void btnValueDataSave_Click(object sender, EventArgs e)
         {
             string sValueName = "";
-   
+
+            if (backSelectOption == null)
+                return;
+
             foreach (var value1 in backSelectOption.values)
             {
                 if (value1.name.Trim() == backSelectOptionValueName.Trim())
@@ -837,23 +853,30 @@ namespace JsonFileParsing
                     int ncnt1 = dbgVision_on.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.visible_on.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if(value1.visible_on != null)
                         {
-                            if (dbgVision_on.Rows[n].Cells[0].Value != null)
-                                value1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
-                        }                            
+                            value1.visible_on.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgVision_on.Rows[n].Cells[0].Value != null)
+                                    value1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
+                            }
+                        }
+                          
                     }
 
                     //-------vision ooff                    
                     ncnt1 = dbgVision_off.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.visible_off.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if (value1.visible_off != null)
                         {
-                            if (dbgVision_off.Rows[n].Cells[0].Value != null)
-                                value1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
+                            value1.visible_off.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgVision_off.Rows[n].Cells[0].Value != null)
+                                    value1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
+                            }
                         }
                     }
 
@@ -861,24 +884,30 @@ namespace JsonFileParsing
                     ncnt1 = dbglengthValues.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.lengthValues.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if(value1.lengthValues != null)
                         {
-                            if (dbglengthValues.Rows[n].Cells[0].Value != null)
-                                value1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
+                            value1.lengthValues.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbglengthValues.Rows[n].Cells[0].Value != null)
+                                    value1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
+                            }
                         }
                     }
                     //-------rotation X
                     ncnt1 = dbgrotationX.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.rotationX.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if(value1.rotationX != null)
                         {
-                            if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
+                            value1.rotationX.Clear();
+                            for (int n = 0; n < ncnt1; n++)
                             {
-                                List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationX.Add(element);
+                                if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
+                                    value1.rotationX.Add(element);
+                                }
                             }
                         }
                         //        List<rotatorvalue> elementX = new List<rotatorvalue>();
@@ -901,15 +930,19 @@ namespace JsonFileParsing
                     ncnt1 = dbgrotationY.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.rotationY.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if(value1.rotationY != null)
                         {
-                            if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
+                            value1.rotationY.Clear();
+                            for (int n = 0; n < ncnt1; n++)
                             {
-                                List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationY.Add(element);
+                                if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
+                                    value1.rotationY.Add(element);
+                                }
                             }
                         }
+
                         //List<rotatorvalue> elementY = new List<rotatorvalue>();
                         //for (int n = 0; n < ncnt1; n++)
                         //{
@@ -930,13 +963,16 @@ namespace JsonFileParsing
                     ncnt1 = dbgrotationZ.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        value1.rotationZ.Clear();
-                        for (int n = 0; n < ncnt1; n++)
+                        if(value1.rotationZ != null)
                         {
-                            if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
+                            value1.rotationZ.Clear();
+                            for (int n = 0; n < ncnt1; n++)
                             {
-                                List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationZ.Add(element);
+                                if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
+                                    value1.rotationZ.Add(element);
+                                }
                             }
                         }
                         //List<rotatorvalue> elementZ = new List<rotatorvalue>();
@@ -1006,7 +1042,7 @@ namespace JsonFileParsing
         }
 
         private void btnjsonfileFolder_Click(object sender, EventArgs e)
-        {
+        {            
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
             if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
@@ -1018,7 +1054,8 @@ namespace JsonFileParsing
 
         private void btnSeriesNameSave_Click(object sender, EventArgs e)
         {
-            string filepath = "D:\\Extra\\c#\\JsonFile_Parser\\sampledata\\SeriesName.txt"; //Application.StartupPath;
+            //string filepath = "D:\\Extra\\_Json_Test\\TCP_Air_Unit\\개별파일\\SeriesName.txt"; //Application.StartupPath;
+            string filepath = tbJsonFileFolder.Text +"\\SeriesName.txt"; //Application.StartupPath;
             using (StreamWriter outputfile = new StreamWriter(filepath)) // +@"\SeriesName.txt"))
             {
                 int icount = tvSeriesName.Nodes.Count;
@@ -1045,6 +1082,32 @@ namespace JsonFileParsing
                     }
                 }
             }
+        }
+
+        private void btnNewJson_Click(object sender, EventArgs e)
+        {
+            PART_SERIES_FILELOAD = 1;
+            int ncnt = tvSeriesName.Nodes.Count;
+            string sSeriesName = "";
+
+            for (int idx = 0; idx < ncnt; idx++)
+            {
+                sSeriesName = tvSeriesName.Nodes[idx].Text;
+                LoadSelectSeriesFile(sSeriesName);
+                foreach (var series1 in rootw.Series)
+                {
+                    if (series1.name == sSeriesName)
+                    {
+                        LoadSeriesOption(series1.option);
+                        backSeries = series1;
+                        backSelectSeriesName = sSeriesName;
+                        LoadSeriesData(series1);
+                        button2_Click(null,null);
+                        break;
+                    }
+                }
+            }
+
         }
     }
 }

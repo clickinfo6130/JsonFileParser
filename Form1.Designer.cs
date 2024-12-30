@@ -76,16 +76,25 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.dbgVision_on = new System.Windows.Forms.DataGridView();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.dbgVision_off = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.dbglengthValues = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.dbgrotationX = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.dbgrotationY = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.dbgrotationZ = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.tvSeriesOption = new System.Windows.Forms.TreeView();
@@ -98,15 +107,7 @@
             this.tbJsonFileFolder = new System.Windows.Forms.TextBox();
             this.btnSeriesNameSave = new System.Windows.Forms.Button();
             this.btnSeriesLoad = new System.Windows.Forms.Button();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnNewJson = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgposwidthLength)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -129,13 +130,12 @@
             // 
             // btn_JsonFile_Read
             // 
-            this.btn_JsonFile_Read.Location = new System.Drawing.Point(405, 49);
+            this.btn_JsonFile_Read.Location = new System.Drawing.Point(360, 49);
             this.btn_JsonFile_Read.Name = "btn_JsonFile_Read";
-            this.btn_JsonFile_Read.Size = new System.Drawing.Size(151, 33);
+            this.btn_JsonFile_Read.Size = new System.Drawing.Size(196, 33);
             this.btn_JsonFile_Read.TabIndex = 0;
-            this.btn_JsonFile_Read.Text = "Json file 읽기";
+            this.btn_JsonFile_Read.Text = "하나로된 Json file 읽기";
             this.btn_JsonFile_Read.UseVisualStyleBackColor = true;
-            this.btn_JsonFile_Read.Visible = false;
             this.btn_JsonFile_Read.Click += new System.EventHandler(this.btn_JsonFile_Read_Click);
             // 
             // tbFileName
@@ -146,17 +146,15 @@
             this.tbFileName.ReadOnly = true;
             this.tbFileName.Size = new System.Drawing.Size(437, 25);
             this.tbFileName.TabIndex = 1;
-            this.tbFileName.Visible = false;
             // 
             // btnParsing
             // 
-            this.btnParsing.Location = new System.Drawing.Point(1009, 22);
+            this.btnParsing.Location = new System.Drawing.Point(1079, 12);
             this.btnParsing.Name = "btnParsing";
-            this.btnParsing.Size = new System.Drawing.Size(151, 31);
+            this.btnParsing.Size = new System.Drawing.Size(233, 31);
             this.btnParsing.TabIndex = 2;
-            this.btnParsing.Text = "Json File Parsing";
+            this.btnParsing.Text = " 하나로된 Json File Parsing";
             this.btnParsing.UseVisualStyleBackColor = true;
-            this.btnParsing.Visible = false;
             this.btnParsing.Click += new System.EventHandler(this.button1_Click);
             // 
             // tvSeriesName
@@ -172,7 +170,7 @@
             // 
             // btnWriteJson_test
             // 
-            this.btnWriteJson_test.Location = new System.Drawing.Point(995, 127);
+            this.btnWriteJson_test.Location = new System.Drawing.Point(1125, 207);
             this.btnWriteJson_test.Name = "btnWriteJson_test";
             this.btnWriteJson_test.Size = new System.Drawing.Size(187, 31);
             this.btnWriteJson_test.TabIndex = 4;
@@ -183,35 +181,32 @@
             // 
             // btnJsonFileWrite
             // 
-            this.btnJsonFileWrite.Location = new System.Drawing.Point(987, 269);
+            this.btnJsonFileWrite.Location = new System.Drawing.Point(1027, 80);
             this.btnJsonFileWrite.Name = "btnJsonFileWrite";
-            this.btnJsonFileWrite.Size = new System.Drawing.Size(187, 31);
+            this.btnJsonFileWrite.Size = new System.Drawing.Size(294, 31);
             this.btnJsonFileWrite.TabIndex = 5;
-            this.btnJsonFileWrite.Text = "개별 File로 json file 저장";
+            this.btnJsonFileWrite.Text = "하나로된 json 파일을 개별 File로 json file 저장";
             this.btnJsonFileWrite.UseVisualStyleBackColor = true;
-            this.btnJsonFileWrite.Visible = false;
             this.btnJsonFileWrite.Click += new System.EventHandler(this.btnJsonFileWrite_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1014, 59);
+            this.button1.Location = new System.Drawing.Point(888, 174);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(146, 23);
             this.button1.TabIndex = 7;
             this.button1.Text = "root값 rootw에 복사";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(987, 208);
+            this.button2.Location = new System.Drawing.Point(822, 418);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(187, 23);
+            this.button2.Size = new System.Drawing.Size(475, 42);
             this.button2.TabIndex = 8;
-            this.button2.Text = "test2(json file 저장)";
+            this.button2.Text = "한개의 파일로 개별 시리즈를 생성 후 최신아이템으로 업데이트 시(json file 저장)";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox1
@@ -558,6 +553,12 @@
             this.dbgVision_on.Size = new System.Drawing.Size(195, 101);
             this.dbgVision_on.TabIndex = 0;
             // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "item";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 150;
+            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.dbgVision_off);
@@ -578,6 +579,12 @@
             this.dbgVision_off.RowTemplate.Height = 23;
             this.dbgVision_off.Size = new System.Drawing.Size(199, 101);
             this.dbgVision_off.TabIndex = 0;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.HeaderText = "item";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 150;
             // 
             // groupBox8
             // 
@@ -601,6 +608,12 @@
             this.dbglengthValues.Size = new System.Drawing.Size(199, 101);
             this.dbglengthValues.TabIndex = 0;
             // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "item";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 150;
+            // 
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.dbgrotationX);
@@ -622,6 +635,18 @@
             this.dbgrotationX.RowTemplate.Height = 23;
             this.dbgrotationX.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationX.TabIndex = 0;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "item";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 150;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "deg";
+            this.Column12.Name = "Column12";
+            this.Column12.Width = 60;
             // 
             // groupBox10
             // 
@@ -645,6 +670,18 @@
             this.dbgrotationY.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationY.TabIndex = 0;
             // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.HeaderText = "item";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "deg";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 60;
+            // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.dbgrotationZ);
@@ -666,6 +703,18 @@
             this.dbgrotationZ.RowTemplate.Height = 23;
             this.dbgrotationZ.Size = new System.Drawing.Size(255, 101);
             this.dbgrotationZ.TabIndex = 0;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.HeaderText = "item";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 150;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "deg";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.Width = 60;
             // 
             // label12
             // 
@@ -725,9 +774,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(858, 22);
+            this.button3.Location = new System.Drawing.Point(790, 17);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(283, 23);
             this.button3.TabIndex = 25;
             this.button3.Text = "button3(othertest)";
             this.button3.UseVisualStyleBackColor = true;
@@ -774,13 +823,12 @@
             // 
             // btnSeriesNameSave
             // 
-            this.btnSeriesNameSave.Location = new System.Drawing.Point(752, 84);
+            this.btnSeriesNameSave.Location = new System.Drawing.Point(724, 84);
             this.btnSeriesNameSave.Name = "btnSeriesNameSave";
-            this.btnSeriesNameSave.Size = new System.Drawing.Size(206, 23);
+            this.btnSeriesNameSave.Size = new System.Drawing.Size(275, 23);
             this.btnSeriesNameSave.TabIndex = 30;
-            this.btnSeriesNameSave.Text = "시리즈명 저장(test용)";
+            this.btnSeriesNameSave.Text = "시리즈명 저장 text 파일로 저장(test용)";
             this.btnSeriesNameSave.UseVisualStyleBackColor = true;
-            this.btnSeriesNameSave.Visible = false;
             this.btnSeriesNameSave.Click += new System.EventHandler(this.btnSeriesNameSave_Click);
             // 
             // btnSeriesLoad
@@ -793,65 +841,22 @@
             this.btnSeriesLoad.UseVisualStyleBackColor = true;
             this.btnSeriesLoad.Click += new System.EventHandler(this.btnSeriesLoad_Click);
             // 
-            // Column11
+            // btnNewJson
             // 
-            this.Column11.HeaderText = "item";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "item";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "item";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn6
-            // 
-            this.dataGridViewTextBoxColumn6.HeaderText = "item";
-            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
-            this.dataGridViewTextBoxColumn6.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "deg";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            this.dataGridViewTextBoxColumn7.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn3
-            // 
-            this.dataGridViewTextBoxColumn3.HeaderText = "item";
-            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-            this.dataGridViewTextBoxColumn3.Width = 150;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "deg";
-            this.Column12.Name = "Column12";
-            this.Column12.Width = 60;
-            // 
-            // dataGridViewTextBoxColumn4
-            // 
-            this.dataGridViewTextBoxColumn4.HeaderText = "item";
-            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
-            this.dataGridViewTextBoxColumn4.Width = 150;
-            // 
-            // dataGridViewTextBoxColumn5
-            // 
-            this.dataGridViewTextBoxColumn5.HeaderText = "deg";
-            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
-            this.dataGridViewTextBoxColumn5.Width = 60;
+            this.btnNewJson.Location = new System.Drawing.Point(895, 380);
+            this.btnNewJson.Name = "btnNewJson";
+            this.btnNewJson.Size = new System.Drawing.Size(402, 23);
+            this.btnNewJson.TabIndex = 32;
+            this.btnNewJson.Text = "Tree에 있는 시리즈 전체 최신 Json file 타입으로 변경";
+            this.btnNewJson.UseVisualStyleBackColor = true;
+            this.btnNewJson.Click += new System.EventHandler(this.btnNewJson_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1359, 801);
+            this.Controls.Add(this.btnNewJson);
             this.Controls.Add(this.btnSeriesLoad);
             this.Controls.Add(this.btnSeriesNameSave);
             this.Controls.Add(this.tbJsonFileFolder);
@@ -995,6 +1000,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.Button btnNewJson;
     }
 }
 
