@@ -108,6 +108,15 @@
             this.btnSeriesNameSave = new System.Windows.Forms.Button();
             this.btnSeriesLoad = new System.Windows.Forms.Button();
             this.btnNewJson = new System.Windows.Forms.Button();
+            this.Length_Atutoinput = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.tbTypeName = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.tbEnumID = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.tbenumidname = new System.Windows.Forms.TextBox();
+            this.btnLoadDataAllinput = new System.Windows.Forms.Button();
+            this.tbCompleteInfo = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgposwidthLength)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -155,6 +164,7 @@
             this.btnParsing.TabIndex = 2;
             this.btnParsing.Text = " 하나로된 Json File Parsing";
             this.btnParsing.UseVisualStyleBackColor = true;
+            this.btnParsing.Visible = false;
             this.btnParsing.Click += new System.EventHandler(this.button1_Click);
             // 
             // tvSeriesName
@@ -181,7 +191,7 @@
             // 
             // btnJsonFileWrite
             // 
-            this.btnJsonFileWrite.Location = new System.Drawing.Point(1027, 80);
+            this.btnJsonFileWrite.Location = new System.Drawing.Point(1005, 84);
             this.btnJsonFileWrite.Name = "btnJsonFileWrite";
             this.btnJsonFileWrite.Size = new System.Drawing.Size(294, 31);
             this.btnJsonFileWrite.TabIndex = 5;
@@ -197,6 +207,7 @@
             this.button1.TabIndex = 7;
             this.button1.Text = "root값 rootw에 복사";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // button2
@@ -744,7 +755,7 @@
             // 
             this.tvSeriesOption.Location = new System.Drawing.Point(12, 493);
             this.tvSeriesOption.Name = "tvSeriesOption";
-            this.tvSeriesOption.Size = new System.Drawing.Size(177, 296);
+            this.tvSeriesOption.Size = new System.Drawing.Size(177, 385);
             this.tvSeriesOption.TabIndex = 21;
             this.tvSeriesOption.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvSeriesOption_AfterSelect);
             this.tvSeriesOption.Enter += new System.EventHandler(this.TreeView_Enter);
@@ -766,7 +777,7 @@
             // 
             this.tvOptionValue.Location = new System.Drawing.Point(203, 493);
             this.tvOptionValue.Name = "tvOptionValue";
-            this.tvOptionValue.Size = new System.Drawing.Size(177, 296);
+            this.tvOptionValue.Size = new System.Drawing.Size(177, 385);
             this.tvOptionValue.TabIndex = 23;
             this.tvOptionValue.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvOptionValue_AfterSelect);
             this.tvOptionValue.Enter += new System.EventHandler(this.TreeView_Enter);
@@ -851,11 +862,97 @@
             this.btnNewJson.UseVisualStyleBackColor = true;
             this.btnNewJson.Click += new System.EventHandler(this.btnNewJson_Click);
             // 
+            // Length_Atutoinput
+            // 
+            this.Length_Atutoinput.Location = new System.Drawing.Point(356, 426);
+            this.Length_Atutoinput.Name = "Length_Atutoinput";
+            this.Length_Atutoinput.Size = new System.Drawing.Size(283, 23);
+            this.Length_Atutoinput.TabIndex = 33;
+            this.Length_Atutoinput.Text = "표준 행정의 Legth값 자동으로 넣기";
+            this.Length_Atutoinput.UseVisualStyleBackColor = true;
+            this.Length_Atutoinput.Click += new System.EventHandler(this.Length_Atutoinput_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(389, 832);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(46, 12);
+            this.label15.TabIndex = 34;
+            this.label15.Text = "Type : ";
+            // 
+            // tbTypeName
+            // 
+            this.tbTypeName.Location = new System.Drawing.Point(441, 829);
+            this.tbTypeName.Name = "tbTypeName";
+            this.tbTypeName.ReadOnly = true;
+            this.tbTypeName.Size = new System.Drawing.Size(100, 21);
+            this.tbTypeName.TabIndex = 35;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(611, 833);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(60, 12);
+            this.label16.TabIndex = 36;
+            this.label16.Text = "enumID : ";
+            // 
+            // tbEnumID
+            // 
+            this.tbEnumID.Location = new System.Drawing.Point(685, 829);
+            this.tbEnumID.Name = "tbEnumID";
+            this.tbEnumID.Size = new System.Drawing.Size(100, 21);
+            this.tbEnumID.TabIndex = 37;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(834, 831);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(130, 12);
+            this.label17.TabIndex = 38;
+            this.label17.Text = "value enumID name : ";
+            // 
+            // tbenumidname
+            // 
+            this.tbenumidname.Location = new System.Drawing.Point(1004, 828);
+            this.tbenumidname.Name = "tbenumidname";
+            this.tbenumidname.Size = new System.Drawing.Size(100, 21);
+            this.tbenumidname.TabIndex = 39;
+            // 
+            // btnLoadDataAllinput
+            // 
+            this.btnLoadDataAllinput.Location = new System.Drawing.Point(928, 311);
+            this.btnLoadDataAllinput.Name = "btnLoadDataAllinput";
+            this.btnLoadDataAllinput.Size = new System.Drawing.Size(208, 31);
+            this.btnLoadDataAllinput.TabIndex = 40;
+            this.btnLoadDataAllinput.Text = "로드 선단 형상 일괄 적용";
+            this.btnLoadDataAllinput.UseVisualStyleBackColor = true;
+            this.btnLoadDataAllinput.Click += new System.EventHandler(this.btnLoadDataAllinput_Click);
+            // 
+            // tbCompleteInfo
+            // 
+            this.tbCompleteInfo.Location = new System.Drawing.Point(1151, 317);
+            this.tbCompleteInfo.Name = "tbCompleteInfo";
+            this.tbCompleteInfo.ReadOnly = true;
+            this.tbCompleteInfo.Size = new System.Drawing.Size(100, 21);
+            this.tbCompleteInfo.TabIndex = 41;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1359, 801);
+            this.ClientSize = new System.Drawing.Size(1359, 918);
+            this.Controls.Add(this.tbCompleteInfo);
+            this.Controls.Add(this.btnLoadDataAllinput);
+            this.Controls.Add(this.tbenumidname);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.tbEnumID);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.tbTypeName);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.Length_Atutoinput);
             this.Controls.Add(this.btnNewJson);
             this.Controls.Add(this.btnSeriesLoad);
             this.Controls.Add(this.btnSeriesNameSave);
@@ -1001,6 +1098,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.Button btnNewJson;
+        private System.Windows.Forms.Button Length_Atutoinput;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox tbTypeName;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox tbEnumID;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox tbenumidname;
+        private System.Windows.Forms.Button btnLoadDataAllinput;
+        private System.Windows.Forms.TextBox tbCompleteInfo;
     }
 }
 

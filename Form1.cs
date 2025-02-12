@@ -19,6 +19,8 @@ namespace JsonFileParsing
     public partial class Form1 : Form
     {
         int PART_SERIES_FILELOAD = 1;   // 1: 개별 파일 로드 하는것, 2 : 하나의 파일 사용
+
+        int nSelectNocnt = -1;
         public class Series
         {
             public string name { get; set; }
@@ -279,8 +281,8 @@ namespace JsonFileParsing
         }
 
         private void tvSeriesName_AfterSelect(object sender, TreeViewEventArgs e)
-        {         
-
+        {
+            nSelectNocnt =  -1;
             ComponentDataInitial(true);
             string sSeriesName = "";
             tvOptionValue.Nodes.Clear();
@@ -508,6 +510,16 @@ namespace JsonFileParsing
               //  series1.option = updatedOptions;
                 if (count > 2)
                     break;
+                //int ifind = -1;
+                //foreach (var option1 in series1.option)
+                //{
+                //    ifind = option1.name.IndexOf("스피드");
+                //    if(ifind >=0)
+                //        option1.type = "CHECK";
+                //    else
+                //        option1.type = "COMBO";
+                //}
+
                 var root1 = new Rootw
                 {
                     Series = new List<Seriesw>
@@ -555,6 +567,7 @@ namespace JsonFileParsing
         }
         private void tvSeriesOption_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            nSelectNocnt = -1;
             ComponentDataInitial(false);
             string soptionName = "";
             soptionName = e.Node.Text;
@@ -564,6 +577,7 @@ namespace JsonFileParsing
                 {
                     LoadSeriesOptionValue(option1.values, false, "");
                     backSelectOptionName = option1.name;
+                     tbTypeName.Text = option1.type;
                     break;
                 }
             }
@@ -706,6 +720,11 @@ namespace JsonFileParsing
                         break;
                     }
                 }
+                if (nSelectNocnt >= 0)
+                {
+                    tbEnumID.Text = value[nSelectNocnt].enumid.ToString();
+                    tbenumidname.Text = value[nSelectNocnt].name;
+                }                    
             }
 
         }
@@ -715,6 +734,7 @@ namespace JsonFileParsing
             ComponentDataInitial(false);
             string sValueName = "";
             sValueName = e.Node.Text.Trim();
+            nSelectNocnt = e.Node.Index;
             if (sValueName.Trim() == "")
                 return;
             foreach (var option1 in backSeries.option)
@@ -728,7 +748,7 @@ namespace JsonFileParsing
                     else
                         sTemp = sValueName;
 
-                    if (sTemp.Trim() != "")
+                    //if (sTemp.Trim() != "")
                         LoadSeriesOptionValue(option1.values, true, sTemp);
                     backSelectOption = option1;
                     backSelectOptionValueName = sTemp;
@@ -843,25 +863,37 @@ namespace JsonFileParsing
             if (backSelectOption == null)
                 return;
 
+            backSelectOption.type = tbTypeName.Text.Trim();
+            int idxcnt = 0;
             foreach (var value1 in backSelectOption.values)
             {
                 if (value1.name.Trim() == backSelectOptionValueName.Trim())
                 {
+                    //if (idxcnt == nSelectNocnt)
+                    //{
+                        value1.enumid = int.Parse(tbEnumID.Text.Trim());
+                        value1.name = tbenumidname.Text.Trim();
+                   // }
+
                     value1.model_file_name = tbmodel_file_name.Text.Trim();
 
                     //-------vision on
                     int ncnt1 = dbgVision_on.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if(value1.visible_on != null)
+                        if(value1.visible_on == null)
                         {
-                            value1.visible_on.Clear();
-                            for (int n = 0; n < ncnt1; n++)
-                            {
-                                if (dbgVision_on.Rows[n].Cells[0].Value != null)
-                                    value1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
-                            }
+                            value1.visible_on = new List<string>();
                         }
+                        else
+                            value1.visible_on.Clear();
+
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbgVision_on.Rows[n].Cells[0].Value != null)
+                                value1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
+                        }
+                        
                           
                     }
 
@@ -869,47 +901,57 @@ namespace JsonFileParsing
                     ncnt1 = dbgVision_off.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if (value1.visible_off != null)
+                        if (value1.visible_off == null)
                         {
-                            value1.visible_off.Clear();
-                            for (int n = 0; n < ncnt1; n++)
-                            {
-                                if (dbgVision_off.Rows[n].Cells[0].Value != null)
-                                    value1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
-                            }
+                            value1.visible_off = new List<string>();
                         }
+                        else
+                            value1.visible_off.Clear();
+
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbgVision_off.Rows[n].Cells[0].Value != null)
+                                value1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
+                        }
+                       
                     }
 
                     //-------lengthValue
                     ncnt1 = dbglengthValues.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if(value1.lengthValues != null)
+                        if (value1.lengthValues == null)
                         {
-                            value1.lengthValues.Clear();
-                            for (int n = 0; n < ncnt1; n++)
-                            {
-                                if (dbglengthValues.Rows[n].Cells[0].Value != null)
-                                    value1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
-                            }
+                            value1.lengthValues = new List<string>();
                         }
+                        else
+                            value1.lengthValues.Clear();
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbglengthValues.Rows[n].Cells[0].Value != null)
+                                value1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
+                        }
+                        
                     }
                     //-------rotation X
                     ncnt1 = dbgrotationX.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if(value1.rotationX != null)
+                        if (value1.rotationX == null)
                         {
+                            value1.rotationX = new List<List<string>>();
+                        }
+                        else
                             value1.rotationX.Clear();
-                            for (int n = 0; n < ncnt1; n++)
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
                             {
-                                if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
-                                {
-                                    List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
-                                    value1.rotationX.Add(element);
-                                }
+                                List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
+                                value1.rotationX.Add(element);
                             }
                         }
+                        
                         //        List<rotatorvalue> elementX = new List<rotatorvalue>();
                         //        for (int n = 0; n < ncnt1; n++)
                         //        {
@@ -930,18 +972,21 @@ namespace JsonFileParsing
                     ncnt1 = dbgrotationY.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if(value1.rotationY != null)
+                        if (value1.rotationY == null)
                         {
+                            value1.rotationY = new List<List<string>>();
+                        }
+                        else
                             value1.rotationY.Clear();
-                            for (int n = 0; n < ncnt1; n++)
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
                             {
-                                if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
-                                {
-                                    List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
-                                    value1.rotationY.Add(element);
-                                }
+                                List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
+                                value1.rotationY.Add(element);
                             }
                         }
+                        
 
                         //List<rotatorvalue> elementY = new List<rotatorvalue>();
                         //for (int n = 0; n < ncnt1; n++)
@@ -963,18 +1008,21 @@ namespace JsonFileParsing
                     ncnt1 = dbgrotationZ.Rows.Count;
                     if (ncnt1 > 0)
                     {
-                        if(value1.rotationZ != null)
+                        if (value1.rotationZ == null)
                         {
+                            value1.rotationZ = new List<List<string>>();
+                        }
+                        else
                             value1.rotationZ.Clear();
-                            for (int n = 0; n < ncnt1; n++)
+                        for (int n = 0; n < ncnt1; n++)
+                        {
+                            if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
                             {
-                                if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
-                                {
-                                    List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
-                                    value1.rotationZ.Add(element);
-                                }
+                                List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
+                                value1.rotationZ.Add(element);
                             }
                         }
+                       
                         //List<rotatorvalue> elementZ = new List<rotatorvalue>();
                         //for (int n = 0; n < ncnt1; n++)
                         //{
@@ -989,10 +1037,11 @@ namespace JsonFileParsing
                         //}
                         //value1.rotationZ.Add(elementZ);
                     }
-
+                    idxcnt++;
                     break;
                 }
             }
+
         }
 
         private void  ComponentDataInitial(bool btype)
@@ -1068,7 +1117,7 @@ namespace JsonFileParsing
 
         private void btnSeriesLoad_Click(object sender, EventArgs e)
         {
-            string filepath = Application.StartupPath;
+            string filepath = tbJsonFileFolder.Text;// Application.StartupPath;
             string filename = filepath + @"\SeriesName.txt";
             if (File.Exists(filename))
             {
@@ -1108,6 +1157,380 @@ namespace JsonFileParsing
                 }
             }
 
+        }
+
+        private void Length_Atutoinput_Click(object sender, EventArgs e)
+        {
+            int ncnt = tvOptionValue.Nodes.Count;
+            string sValueName = "";
+            string sFirtvaluename = "";
+
+            
+            foreach (var option1 in backSeries.option)
+            {
+                if (option1.name == backSelectOptionName)
+                {
+                    int iFind = sValueName.IndexOf(':');
+                    string sTemp = "";
+                    if (iFind >= 0)
+                        sTemp = sValueName.Substring(0, iFind);
+                    else
+                        sTemp = sValueName;
+
+                    // LoadSeriesOptionValue(option1.values, true, sTemp);
+                    int idx = 0;
+                    foreach (var value1 in option1.values)
+                    {
+                        sValueName = tvOptionValue.Nodes[idx].Text;
+                        if (value1.lengthValues == null)
+                        {
+                            value1.lengthValues = new List<string>();
+                        }
+                        else
+                            value1.lengthValues.Clear();
+
+                        if (idx == 0)
+                        {
+                            value1.lengthValues.Add("1:0");
+                            sFirtvaluename = sValueName;
+                        }
+                        else
+                        {                            
+                            string sTemp1 = "";
+                            int ivlaue = int.Parse(sValueName) - int.Parse(sFirtvaluename);
+                            sTemp1 = "1:" + ivlaue.ToString();
+                            value1.lengthValues.Add(sTemp1);
+                        }
+                        idx++;
+                    }
+             
+                }
+            }                
+        }
+
+        private void btnLoadDataAllinput_Click(object sender, EventArgs e)
+        {
+            int nCount = tvSeriesName.Nodes.Count;
+
+            tbCompleteInfo.Text = "Start";
+
+            for (int idx = 0; idx<nCount;idx++)
+            {
+                ComponentDataInitial(true);
+                string sSeriesName = "";
+                sSeriesName = tvSeriesName.Nodes[idx].Text;
+                tvOptionValue.Nodes.Clear();
+                LoadSelectSeriesFile(sSeriesName);
+                bool bSavechk = false;
+                if (sSeriesName.Trim() == "TCM3")
+                    continue;
+
+                foreach (var series1 in rootw.Series)
+                {
+                    bSavechk = false;                    
+                    if (series1.name == sSeriesName)
+                    {
+                        //LoadSeriesOption(series1.option);
+                        //backSeries = series1;
+                        //backSelectSeriesName = sSeriesName;
+                        //LoadSeriesData(series1);
+
+                        foreach(var option1 in series1.option)
+                        {
+                            int iFind = -1;
+
+                            iFind = option1.name.Trim().IndexOf("로드 선단 형상");
+                            if (iFind >= 0)
+                            {
+                                bSavechk = true;
+                                int icnt = 0;
+                                foreach (var value1 in option1.values)
+                                {
+                                    if (value1.visible_off == null)
+                                    {
+                                        value1.visible_off = new List<string>();
+                                    }
+                                    else
+                                        value1.visible_off.Clear();
+
+                                    if (value1.visible_on == null)
+                                    {
+                                        value1.visible_on = new List<string>();
+                                    }
+                                    else
+                                        value1.visible_on.Clear();
+                                    if (icnt == 0)
+                                    {
+                                        value1.visible_on.Add("Rod,Male");
+                                        value1.visible_off.Add("Rod,-Male");
+                                    }
+                                    else if (icnt == 1)
+                                    {
+                                        value1.visible_on.Add("Rod,Female");
+                                        value1.visible_off.Add("Rod,-Female");
+                                    }
+                                    icnt++;
+
+                                }
+                            }
+                            else
+                            {
+                                iFind = option1.name.Trim().IndexOf("선단금구");
+                                if (iFind >= 0)
+                                {
+                                    bSavechk = true;
+                                    int icnt = 0;
+                                    foreach (var value1 in option1.values)
+                                    {
+                                        if (value1.visible_off == null)
+                                        {
+                                            value1.visible_off = new List<string>();
+                                        }
+                                        else
+                                            value1.visible_off.Clear();
+
+                                        if (value1.visible_on == null)
+                                        {
+                                            value1.visible_on = new List<string>();
+                                        }
+                                        else
+                                            value1.visible_on.Clear();
+
+                                        if (icnt == 0)
+                                        {
+                                            value1.visible_on.Add("");
+                                            value1.visible_off.Add("Acc_RodEnd");
+                                        }
+                                        else if (icnt == 1)
+                                        {
+                                            value1.visible_on.Add("Acc_RodEnd_I");
+                                            value1.visible_off.Add("Acc_RodEnd_Y");
+                                        }
+                                        else if (icnt == 2)
+                                        {
+                                            value1.visible_on.Add("Acc_RodEnd_Y");
+                                            value1.visible_off.Add("Acc_RodEnd_I");
+                                        }
+                                        icnt++;
+
+                                    }
+                                }
+                                else
+                                {
+                                    iFind = option1.name.Trim().IndexOf("부착지지 형식");
+                                    if (iFind >= 0)
+                                    {
+                                        bSavechk = true;
+                                        int icnt = 0;
+                                        foreach (var value1 in option1.values)
+                                        {
+                                            if (value1.visible_off == null)
+                                            {
+                                                value1.visible_off = new List<string>();
+                                            }
+                                            else
+                                                value1.visible_off.Clear();
+
+                                            if (value1.visible_on == null)
+                                            {
+                                                value1.visible_on = new List<string>();
+                                            }
+                                            else
+                                                value1.visible_on.Clear();
+
+                                            if (value1.name.Trim() == "B")
+                                            {
+                                                value1.visible_on.Add("");
+                                                value1.visible_off.Add("Acc_HeadSide,-Bellows");
+                                                value1.visible_off.Add("Acc_RodSide,-Bellows");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "BZ")
+                                            {
+                                                value1.visible_on.Add("Body,Cut");
+                                                value1.visible_off.Add("Body,-Cut");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "C")
+                                            {
+                                                value1.visible_on.Add("Acc_HeadSide_C");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                                value1.visible_off.Add("Acc_HeadSide,-_C");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "D")
+                                            {
+                                                value1.visible_on.Add("Acc_HeadSide_D");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                                value1.visible_off.Add("Acc_HeadSide,-_D");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "E")
+                                            {
+                                                value1.visible_on.Add("Acc_HeadSide_E");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                                value1.visible_off.Add("Acc_HeadSide,-_E");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "F")
+                                            {
+                                                value1.visible_on.Add("Acc_RodSide_F");
+                                                value1.visible_off.Add("Acc_HeadSide");
+                                                value1.visible_off.Add("Acc_RodSide,-_F");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "FZ")
+                                            {
+                                                value1.visible_on.Add("Acc_RodSide_F");
+                                                value1.visible_off.Add("Acc_HeadSide");
+                                                value1.visible_off.Add("Acc_RodSide,-_F");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "G")
+                                            {
+                                                value1.visible_on.Add("Acc_HeadSide_G");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                                value1.visible_off.Add("Acc_HeadSide,-_G");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "L")
+                                            {
+                                                value1.visible_on.Add("Foot");
+                                                value1.visible_off.Add("Acc_HeadSide");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                            }
+                                            else if (value1.name.Trim() == "T")
+                                            {
+                                                value1.visible_on.Add("Acc_HeadSide_T");
+                                                value1.visible_off.Add("Acc_RodSide");
+                                                value1.visible_off.Add("Acc_HeadSide,-_T");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "U")
+                                            {
+                                                value1.visible_on.Add("");
+                                                value1.visible_on.Add("Acc_RodSide_U");
+                                                value1.visible_off.Add("Acc_HeadSide");
+                                                value1.visible_off.Add("Acc_RodSide,-_U");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                            else if (value1.name.Trim() == "UZ")
+                                            {
+                                                value1.visible_on.Add("Acc_RodSide_U");
+                                                value1.visible_off.Add("Acc_HeadSide");
+                                                value1.visible_off.Add("Foot");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        iFind = option1.name.Trim().IndexOf("벨로우즈");
+                                        if (iFind >= 0)
+                                        {
+                                            if(option1.id == 48)
+                                            {
+                                                bSavechk = true;
+                                                int icnt = 0;
+                                                foreach (var value1 in option1.values)
+                                                {
+                                                    if (value1.visible_off == null)
+                                                    {
+                                                        value1.visible_off = new List<string>();
+                                                    }
+                                                    else
+                                                        value1.visible_off.Clear();
+
+                                                    if (value1.visible_on == null)
+                                                    {
+                                                        value1.visible_on = new List<string>();
+                                                    }
+                                                    else
+                                                        value1.visible_on.Clear();
+
+                                                    if (value1.name.Trim() == "")
+                                                    {
+                                                        value1.visible_on.Add("");
+                                                        value1.visible_off.Add("Bellows_,RodSide");
+                                                    }
+                                                    else if (value1.name.Trim() == "J")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,RodSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+                                                    else if (value1.name.Trim() == "K")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,RodSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+                                                    else if (value1.name.Trim() == "JJ")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,RodSide");
+                                                        value1.visible_on.Add("Bellows_,HeadSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+                                                    else if (value1.name.Trim() == "KK")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,RodSide");
+                                                        value1.visible_on.Add("Bellows_,HeadSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+
+                                                }
+                                            }
+                                            else if (option1.id == 98)
+                                            {
+                                                bSavechk = true;
+                                                int icnt = 0;
+                                                foreach (var value1 in option1.values)
+                                                {
+                                                    if (value1.visible_off == null)
+                                                    {
+                                                        value1.visible_off = new List<string>();
+                                                    }
+                                                    else
+                                                        value1.visible_off.Clear();
+
+                                                    if (value1.visible_on == null)
+                                                    {
+                                                        value1.visible_on = new List<string>();
+                                                    }
+                                                    else
+                                                        value1.visible_on.Clear();
+
+                                                    if (value1.name.Trim() == "")
+                                                    {
+                                                        value1.visible_on.Add("");
+                                                        value1.visible_off.Add("Bellows_,HeadSide");
+                                                    }
+                                                    else if (value1.name.Trim() == "J")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,HeadSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+                                                    else if (value1.name.Trim() == "K")
+                                                    {
+                                                        value1.visible_on.Add("Bellows_,HeadSide");
+                                                        value1.visible_off.Add("");
+                                                    }
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+                        break;
+                    }
+                }
+                bValueTreeClickCheck = false;
+                if(bSavechk==true)
+                    button2_Click(null, null);
+            }
+
+            tbCompleteInfo.Text = "End";
         }
     }
 }
