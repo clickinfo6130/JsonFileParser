@@ -21,6 +21,7 @@ namespace JsonFileParsing
         int PART_SERIES_FILELOAD = 1;   // 1: 개별 파일 로드 하는것, 2 : 하나의 파일 사용
 
         int nSelectNocnt = -1;
+        string strDrawmodedata = "";
         public class Series
         {
             public string name { get; set; }
@@ -64,6 +65,7 @@ namespace JsonFileParsing
             public List<int> rotation { get; set; }
             public List<int> camera_position { get; set; }
             public List<int> camera_center { get; set; }
+            public List<int> drawmode { get; set; }
 
             public List<Optionw> option { get; set; } // array
         }
@@ -189,13 +191,17 @@ namespace JsonFileParsing
             };
 
             string jsonString = string.Empty;
+            bool bfilechk = true;
             if (PART_SERIES_FILELOAD == 1)
             {
                 string sfilepath = tbJsonFileFolder.Text + "\\" + tbFileName.Text + ".json";
                 if (File.Exists(sfilepath))
                     jsonString = File.ReadAllText(sfilepath);
                 else
-                    MessageBox.Show("파일이 없습니다.!! 파일 유무를 확인 해주세요");
+                {
+                    bfilechk = false;
+                    MessageBox.Show("파일이 없습니다.!! 파일 유무를 확인 해주세요 " + @tbFileName.Text); 
+                }                    
             }
             else
             {
@@ -214,7 +220,8 @@ namespace JsonFileParsing
             }
             else
             {
-                rootw = JsonSerializer.Deserialize<Rootw>(jsonString, optios);
+                if(bfilechk==true)
+                    rootw = JsonSerializer.Deserialize<Rootw>(jsonString, optios);
             }
         }
 
@@ -319,7 +326,7 @@ namespace JsonFileParsing
             dgposwidthLength.Rows.Clear();
 
             int nindex = 0;
-            if (ncnt>0)
+            if (ncnt > 0)
             {
                 int nColumncnt = dgposwidthLength.ColumnCount;
                 string[] data1 = new string[nColumncnt];
@@ -327,39 +334,70 @@ namespace JsonFileParsing
                 for (int i = 0; i < nColumncnt; i++)
                     data1[i] = string.Empty;
 
-                for(int i=0;i<ncnt;i++)
+                for (int i = 0; i < ncnt; i++)
                 {
                     data1[0] = series2.position_with_length[i].index.ToString();
-                    
+
                     int soilcnt = series2.position_with_length[i].solid.Count;
-                    if (soilcnt > (nColumncnt-1)) soilcnt = nColumncnt-1;                  
-                    for (int m=0;m<soilcnt;m++)
-                    {                        
+                    if (soilcnt > (nColumncnt - 1)) soilcnt = nColumncnt - 1;
+                    for (int m = 0; m < soilcnt; m++)
+                    {
                         data1[m + 1] = series2.position_with_length[i].solid[m].ToString();
                     }
 
                     dgposwidthLength.Rows.Add(data1);
                 }
             }
-            if(series2.rotation.Count>0)
+            if(series2.rotation != null)
             {
-                tbRotationX.Text = series2.rotation[0].ToString();
-                tbRotationY.Text = series2.rotation[1].ToString();
-                tbRotationZ.Text = series2.rotation[2].ToString();
+                if (series2.rotation.Count > 0)
+                {
+                    tbRotationX.Text = series2.rotation[0].ToString();
+                    tbRotationY.Text = series2.rotation[1].ToString();
+                    tbRotationZ.Text = series2.rotation[2].ToString();
+                }
             }
 
-            if (series2.camera_center.Count > 0)
+            if (series2.camera_center != null)
             {
-                tbcamera_centerX.Text = series2.camera_center[0].ToString();
-                tbcamera_centerY.Text = series2.camera_center[1].ToString();
-                tbcamera_centerZ.Text = series2.camera_center[2].ToString();
+                if (series2.camera_center.Count > 0)
+                {
+                    tbcamera_centerX.Text = series2.camera_center[0].ToString();
+                    tbcamera_centerY.Text = series2.camera_center[1].ToString();
+                    tbcamera_centerZ.Text = series2.camera_center[2].ToString();
+                }
             }
 
-            if (series2.camera_position.Count > 0)
+            if (series2.camera_position != null)
             {
-                tbCamera_positionX.Text = series2.camera_position[0].ToString();
-                tbCamera_positionY.Text = series2.camera_position[1].ToString();
-                tbCamera_positionZ.Text = series2.camera_position[2].ToString();
+                if (series2.camera_position.Count > 0)
+                {
+                    tbCamera_positionX.Text = series2.camera_position[0].ToString();
+                    tbCamera_positionY.Text = series2.camera_position[1].ToString();
+                    tbCamera_positionZ.Text = series2.camera_position[2].ToString();
+                }
+            }
+
+            int ndrawmodecnt = 0;
+            if (series2.drawmode != null)
+                ndrawmodecnt = series2.drawmode.Count;            
+            dgDrawMode.Rows.Clear();
+            if (ndrawmodecnt > 0)
+            {
+                for (int n = 0; n < ndrawmodecnt; n++)
+                    dgDrawMode.Rows.Add(series2.drawmode[n].ToString());
+            }
+
+
+            // oder code
+            int nordercnt = 0;
+            if (series2.ordercode != null)
+                nordercnt = series2.ordercode.Count;
+            dgOrderCode.Rows.Clear();
+            if (nordercnt > 0)
+            {
+                for (int n = 0; n < nordercnt; n++)
+                    dgOrderCode.Rows.Add(series2.ordercode[n]);
             }
 
         }
@@ -502,7 +540,39 @@ namespace JsonFileParsing
             camcen.Add(tbcamera_centerY.Text.Trim() == "" ? 0 : int.Parse(tbcamera_centerY.Text));
             camcen.Add(tbcamera_centerZ.Text.Trim() == "" ? 0 : int.Parse(tbcamera_centerZ.Text));
 
-            
+
+            List<int> draw_mode = new List<int>();
+            if (chkdrawmode.Checked==false)
+            {               
+                //-------vision ooff                    
+                int ndrawmodecnt = dgDrawMode.Rows.Count;
+                for (int n = 0; n < ndrawmodecnt; n++)
+                {
+                    if (dgDrawMode.Rows[n].Cells[0].Value != null)
+                        draw_mode.Add(int.Parse(dgDrawMode.Rows[n].Cells[0].Value.ToString()));
+                }
+            }
+            else
+            {
+                string[] adrawmode = strDrawmodedata.Split(',');               
+                //-------vision ooff                    
+                int ndrawmodecnt = adrawmode.Length;
+                for (int n = 0; n < ndrawmodecnt; n++)
+                {
+                     draw_mode.Add(int.Parse(adrawmode[n]));
+                }                
+            }
+
+
+            //-------order code                    
+            List<string> order_code = new List<string>();
+            int nordercnt = dgOrderCode.Rows.Count;
+            for (int n = 0; n < nordercnt; n++)
+            {
+                if (dgOrderCode.Rows[n].Cells[0].Value != null)
+                    order_code.Add(dgOrderCode.Rows[n].Cells[0].Value.ToString());
+            }
+            //---------------//
 
             foreach (var series1 in rootw.Series)
             {
@@ -528,7 +598,7 @@ namespace JsonFileParsing
                         {
                             name = series1.name,
                             id = series1.id,
-                            ordercode = new List<string>(series1.ordercode),
+                            ordercode = new List<string>(order_code),
                             //position_with_length = series1.position_with_length,
                             //rotation = series1.rotation,
                             //camera_position = series1.camera_position,
@@ -537,6 +607,7 @@ namespace JsonFileParsing
                             rotation = new List<int>(rot),
                             camera_position = new List<int>(campos),
                             camera_center = new List<int>(camcen),
+                            drawmode = new List<int>(draw_mode),
                             option = new List<Optionw>(series1.option),
                         }
                     }
@@ -1528,6 +1599,54 @@ namespace JsonFileParsing
                 bValueTreeClickCheck = false;
                 if(bSavechk==true)
                     button2_Click(null, null);
+            }
+
+            tbCompleteInfo.Text = "End";
+        }
+
+        private void btnDrawModeRead_Click(object sender, EventArgs e)
+        {
+            string filepath = tbJsonFileFolder.Text;// Application.StartupPath;
+            string filename = filepath + @"\DrawMode.txt";
+            if (File.Exists(filename))
+            {
+                using (StreamReader readefile = new StreamReader(filename))
+                {
+                    tvDrawmode.Nodes.Clear();
+                    string line;
+                    while ((line = readefile.ReadLine()) != null)
+                    {
+                        tvDrawmode.Nodes.Add(line);
+                    }
+                }
+            }
+        }
+
+        private void btnDrawModeWrite_Click(object sender, EventArgs e)
+        {
+            int nCount = tvSeriesName.Nodes.Count;
+
+            tbCompleteInfo.Text = "Start";
+
+            for (int idx = 0; idx < nCount; idx++)
+            {
+                ComponentDataInitial(true);
+                string sSeriesName = "";
+                sSeriesName = tvSeriesName.Nodes[idx].Text;
+                strDrawmodedata = tvDrawmode.Nodes[idx].Text;
+                tvOptionValue.Nodes.Clear();
+                LoadSelectSeriesFile(sSeriesName);
+                bool bSavechk = false;
+
+                foreach (var series1 in rootw.Series)
+                {
+                    bSavechk = false;
+                    if (series1.name == sSeriesName)
+                    {
+                        bValueTreeClickCheck = false;
+                        button2_Click(null, null);
+                    }
+                }
             }
 
             tbCompleteInfo.Text = "End";

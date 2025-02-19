@@ -117,6 +117,17 @@
             this.tbenumidname = new System.Windows.Forms.TextBox();
             this.btnLoadDataAllinput = new System.Windows.Forms.Button();
             this.tbCompleteInfo = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.dgDrawMode = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label19 = new System.Windows.Forms.Label();
+            this.tvDrawmode = new System.Windows.Forms.TreeView();
+            this.btnDrawModeRead = new System.Windows.Forms.Button();
+            this.btnDrawModeWrite = new System.Windows.Forms.Button();
+            this.chkdrawmode = new System.Windows.Forms.CheckBox();
+            this.dgOrderCode = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label20 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgposwidthLength)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -135,6 +146,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dbgrotationY)).BeginInit();
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dbgrotationZ)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgDrawMode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgOrderCode)).BeginInit();
             this.SuspendLayout();
             // 
             // btn_JsonFile_Read
@@ -180,7 +193,7 @@
             // 
             // btnWriteJson_test
             // 
-            this.btnWriteJson_test.Location = new System.Drawing.Point(1125, 207);
+            this.btnWriteJson_test.Location = new System.Drawing.Point(1125, 132);
             this.btnWriteJson_test.Name = "btnWriteJson_test";
             this.btnWriteJson_test.Size = new System.Drawing.Size(187, 31);
             this.btnWriteJson_test.TabIndex = 4;
@@ -201,7 +214,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(888, 174);
+            this.button1.Location = new System.Drawing.Point(872, 132);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(146, 23);
             this.button1.TabIndex = 7;
@@ -212,7 +225,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(822, 418);
+            this.button2.Location = new System.Drawing.Point(832, 439);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(475, 42);
             this.button2.TabIndex = 8;
@@ -854,7 +867,7 @@
             // 
             // btnNewJson
             // 
-            this.btnNewJson.Location = new System.Drawing.Point(895, 380);
+            this.btnNewJson.Location = new System.Drawing.Point(905, 401);
             this.btnNewJson.Name = "btnNewJson";
             this.btnNewJson.Size = new System.Drawing.Size(402, 23);
             this.btnNewJson.TabIndex = 32;
@@ -923,7 +936,7 @@
             // 
             // btnLoadDataAllinput
             // 
-            this.btnLoadDataAllinput.Location = new System.Drawing.Point(928, 311);
+            this.btnLoadDataAllinput.Location = new System.Drawing.Point(915, 358);
             this.btnLoadDataAllinput.Name = "btnLoadDataAllinput";
             this.btnLoadDataAllinput.Size = new System.Drawing.Size(208, 31);
             this.btnLoadDataAllinput.TabIndex = 40;
@@ -933,17 +946,125 @@
             // 
             // tbCompleteInfo
             // 
-            this.tbCompleteInfo.Location = new System.Drawing.Point(1151, 317);
+            this.tbCompleteInfo.Location = new System.Drawing.Point(1135, 364);
             this.tbCompleteInfo.Name = "tbCompleteInfo";
             this.tbCompleteInfo.ReadOnly = true;
-            this.tbCompleteInfo.Size = new System.Drawing.Size(100, 21);
+            this.tbCompleteInfo.Size = new System.Drawing.Size(64, 21);
             this.tbCompleteInfo.TabIndex = 41;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(888, 247);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(66, 12);
+            this.label18.TabIndex = 42;
+            this.label18.Text = "DrawMode";
+            // 
+            // dgDrawMode
+            // 
+            this.dgDrawMode.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgDrawMode.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn8});
+            this.dgDrawMode.Location = new System.Drawing.Point(985, 169);
+            this.dgDrawMode.Name = "dgDrawMode";
+            this.dgDrawMode.RowTemplate.Height = 23;
+            this.dgDrawMode.Size = new System.Drawing.Size(195, 183);
+            this.dgDrawMode.TabIndex = 43;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "item";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.Width = 150;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(1340, 149);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(99, 12);
+            this.label19.TabIndex = 45;
+            this.label19.Text = "Draw Mode Data";
+            // 
+            // tvDrawmode
+            // 
+            this.tvDrawmode.FullRowSelect = true;
+            this.tvDrawmode.Location = new System.Drawing.Point(1337, 169);
+            this.tvDrawmode.Name = "tvDrawmode";
+            this.tvDrawmode.Size = new System.Drawing.Size(177, 367);
+            this.tvDrawmode.TabIndex = 46;
+            // 
+            // btnDrawModeRead
+            // 
+            this.btnDrawModeRead.Location = new System.Drawing.Point(1345, 555);
+            this.btnDrawModeRead.Name = "btnDrawModeRead";
+            this.btnDrawModeRead.Size = new System.Drawing.Size(169, 23);
+            this.btnDrawModeRead.TabIndex = 47;
+            this.btnDrawModeRead.Text = "Draw Mode 정보 읽기";
+            this.btnDrawModeRead.UseVisualStyleBackColor = true;
+            this.btnDrawModeRead.Click += new System.EventHandler(this.btnDrawModeRead_Click);
+            // 
+            // btnDrawModeWrite
+            // 
+            this.btnDrawModeWrite.Location = new System.Drawing.Point(1342, 591);
+            this.btnDrawModeWrite.Name = "btnDrawModeWrite";
+            this.btnDrawModeWrite.Size = new System.Drawing.Size(172, 52);
+            this.btnDrawModeWrite.TabIndex = 49;
+            this.btnDrawModeWrite.Text = "Draw Mode 정보 시리즈에 일괄 적용";
+            this.btnDrawModeWrite.UseVisualStyleBackColor = true;
+            this.btnDrawModeWrite.Click += new System.EventHandler(this.btnDrawModeWrite_Click);
+            // 
+            // chkdrawmode
+            // 
+            this.chkdrawmode.AutoSize = true;
+            this.chkdrawmode.Location = new System.Drawing.Point(1345, 651);
+            this.chkdrawmode.Name = "chkdrawmode";
+            this.chkdrawmode.Size = new System.Drawing.Size(141, 16);
+            this.chkdrawmode.TabIndex = 50;
+            this.chkdrawmode.Text = "Draw Mode 일괄적용";
+            this.chkdrawmode.UseVisualStyleBackColor = true;
+            // 
+            // dgOrderCode
+            // 
+            this.dgOrderCode.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgOrderCode.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn9});
+            this.dgOrderCode.Location = new System.Drawing.Point(1565, 169);
+            this.dgOrderCode.Name = "dgOrderCode";
+            this.dgOrderCode.RowTemplate.Height = 23;
+            this.dgOrderCode.Size = new System.Drawing.Size(195, 680);
+            this.dgOrderCode.TabIndex = 51;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "item";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.Width = 150;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(1582, 147);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(70, 12);
+            this.label20.TabIndex = 52;
+            this.label20.Text = "Order Code";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1359, 918);
+            this.ClientSize = new System.Drawing.Size(1826, 918);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.dgOrderCode);
+            this.Controls.Add(this.chkdrawmode);
+            this.Controls.Add(this.btnDrawModeWrite);
+            this.Controls.Add(this.btnDrawModeRead);
+            this.Controls.Add(this.tvDrawmode);
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.dgDrawMode);
+            this.Controls.Add(this.label18);
             this.Controls.Add(this.tbCompleteInfo);
             this.Controls.Add(this.btnLoadDataAllinput);
             this.Controls.Add(this.tbenumidname);
@@ -1011,6 +1132,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dbgrotationY)).EndInit();
             this.groupBox11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dbgrotationZ)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgDrawMode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgOrderCode)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1107,6 +1230,17 @@
         private System.Windows.Forms.TextBox tbenumidname;
         private System.Windows.Forms.Button btnLoadDataAllinput;
         private System.Windows.Forms.TextBox tbCompleteInfo;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.DataGridView dgDrawMode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TreeView tvDrawmode;
+        private System.Windows.Forms.Button btnDrawModeRead;
+        private System.Windows.Forms.Button btnDrawModeWrite;
+        private System.Windows.Forms.CheckBox chkdrawmode;
+        private System.Windows.Forms.DataGridView dgOrderCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.Label label20;
     }
 }
 
