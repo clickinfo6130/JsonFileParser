@@ -46,7 +46,9 @@ namespace JsonFileParsing
             public string desc { get; set; }
             public List<string> filter { get; set; } // array
             //  public List<string> FilterValues { get; set; }
-            public List<List<List<string>>> filter_Values { get; set; }
+            public List<List<string>> filter_Values { get; set; }
+            public List<string> web_mesh_db { get; set; } // array
+            
         }
 
         public class Root
@@ -94,7 +96,19 @@ namespace JsonFileParsing
             public string desc { get; set; }
             public List<string> filter { get; set; } // array
             //  public List<string> FilterValues { get; set; }
-            public List<List<List<string>>> filter_Values { get; set; }
+            //public List<List<List<string>>> filter_Values { get; set; }
+            public List<List<string>> filter_Values { get; set; }
+            public List<web_mesh_dbW> web_mesh_db { get; set; } // array
+
+            // 아래 부분 잠시 막음.... 2024.11.22
+            //public List<List<rotatorvalue>> rotationX { get; set; }
+            //public List<List<rotatorvalue>> rotationY { get; set; }
+            //public List<List<rotatorvalue>> rotationZ { get; set; }
+        }
+
+        public class web_mesh_dbW
+        {
+            public List<int> filter_index { get; set; }
             public string model_file_name { get; set; }
             public List<string> visible_on { get; set; }
             public List<string> visible_off { get; set; }
@@ -102,10 +116,6 @@ namespace JsonFileParsing
             public List<List<string>> rotationX { get; set; }
             public List<List<string>> rotationY { get; set; }
             public List<List<string>> rotationZ { get; set; }
-            // 아래 부분 잠시 막음.... 2024.11.22
-            //public List<List<rotatorvalue>> rotationX { get; set; }
-            //public List<List<rotatorvalue>> rotationY { get; set; }
-            //public List<List<rotatorvalue>> rotationZ { get; set; }
         }
 
         public class rotatorvalue
@@ -468,18 +478,23 @@ namespace JsonFileParsing
                         desc = v.desc,
                         filter = v.filter,
                         filter_Values = v.filter_Values,
-                        model_file_name = "", // Initialize as needed
-                        visible_on = new List<string>(), // Initialize as needed
-                        visible_off = new List<string>(), // Initialize as needed
-                        lengthValues = new List<string>(), // Initialize as needed
-                        rotationX = new List<List<string>>(), // Initialize as needed
-                        rotationY = new List<List<string>>(), // Initialize as needed
-                        rotationZ = new List<List<string>>() // Initialize as needed
-                        //2024.11.22 잠시막음..
-                        //rotationX = new List<List<rotatorvalue>> (), // Initialize as needed
-                        //rotationY = new List<List<rotatorvalue>>(), // Initialize as needed
-                        //rotationZ = new List<List<rotatorvalue>>() // Initialize as needed
-                    }).ToList(),
+
+                        web_mesh_db = o.values.Select(v1 => new web_mesh_dbW
+                        {
+                            filter_index = new List<int>(),
+                            model_file_name = "", // Initialize as needed
+                            visible_on = new List<string>(), // Initialize as needed
+                            visible_off = new List<string>(), // Initialize as needed
+                            lengthValues = new List<string>(), // Initialize as needed
+                            rotationX = new List<List<string>>(), // Initialize as needed
+                            rotationY = new List<List<string>>(), // Initialize as needed
+                            rotationZ = new List<List<string>>() // Initialize as needed
+                            //2024.11.22 잠시막음..
+                            //rotationX = new List<List<rotatorvalue>> (), // Initialize as needed
+                            //rotationY = new List<List<rotatorvalue>>(), // Initialize as needed
+                            //rotationZ = new List<List<rotatorvalue>>() // Initialize as needed
+                        }).ToList(),
+                     }).ToList(),
                     type = o.type,
                 }).ToList()
             }).ToList();
@@ -676,118 +691,120 @@ namespace JsonFileParsing
                 {
                     if(svaluename.Trim() == value[i].name.Trim())
                     {
-                        tbmodel_file_name.Text = value[i].model_file_name;
-
-                        //-------vision on
-                        dbgVision_on.Rows.Clear();
-
-                        int ncnt1 = 0;
-                        if(value[i].visible_on != null)
-                            ncnt1= value[i].visible_on.Count;
-                        if(ncnt1>0)
+                        foreach(var web_mesh_db1 in value[i].web_mesh_db)
                         {
-                            for (int n = 0; n < ncnt1; n++)
-                                dbgVision_on.Rows.Add(value[i].visible_on[n]);
-                        }
+                            tbmodel_file_name.Text = web_mesh_db1.model_file_name;
 
-                        //-------vision ooff
-                        dbgVision_off.Rows.Clear();
-                        ncnt1 = 0;
-                        if (value[i].visible_off != null)
-                            ncnt1 = value[i].visible_off.Count;
-                        if (ncnt1 > 0)
-                        {
-                            for (int n = 0; n < ncnt1; n++)
-                                dbgVision_off.Rows.Add(value[i].visible_off[n]);
-                        }
+                            //-------vision on
+                            dbgVision_on.Rows.Clear();
 
-                        //-------lengthValue
-                        dbglengthValues.Rows.Clear();     
-                        ncnt1 = 0;
-                        if (value[i].lengthValues != null)
-                            ncnt1 = value[i].lengthValues.Count;
-                        if (ncnt1 > 0)
-                        {
-                            for (int n = 0; n < ncnt1; n++)
-                                dbglengthValues.Rows.Add(value[i].lengthValues[n]);
-                        }
-
-                        //-------rotation X
-                        dbgrotationX.Rows.Clear();
-                        ncnt1 = 0;
-                        int ncolcnt = dbgrotationX.ColumnCount;
-                        if (ncolcnt > 2) ncolcnt = 2;  // 현재는  항목이 2개이기에.
-                        string[] data1 = new string[ncolcnt];
-
-                        if (value[i].rotationX != null)
-                            ncnt1 = value[i].rotationX.Count;
-                        if (ncnt1 > 0)
-                        {
-                            for (int n = 0; n < ncnt1; n++)
+                            int ncnt1 = 0;
+                            if (web_mesh_db1.visible_on != null)
+                                ncnt1 = web_mesh_db1.visible_on.Count;
+                            if (ncnt1 > 0)
                             {
-                                List<string> element = value[i].rotationX[n];
-                                dbgrotationX.Rows.Add(element[0], element[1]);
+                                for (int n = 0; n < ncnt1; n++)
+                                    dbgVision_on.Rows.Add(web_mesh_db1.visible_on[n]);
                             }
-                            //for (int n = 0; n < ncnt1; n++)
-                            //{
-                            //    int ircnt = value[i].rotationX[0].Count;
-                            //    for(int k=0;k<ircnt;k++)
-                            //    {
-                            //        data1[0] = value[i].rotationX[n][k].item;
-                            //        data1[1] = value[i].rotationX[n][k].nrotatorvalue.ToString();
-                            //        dbgrotationX.Rows.Add(data1);
-                            //    }                             
-                            //}                                
-                        }
 
-                        //-------rotation Y
-                        dbgrotationY.Rows.Clear();
-                        ncnt1 = 0;
-                        if (value[i].rotationY != null)
-                            ncnt1 = value[i].rotationY.Count;
-                        if (ncnt1 > 0)
-                        {
-                            for (int n = 0; n < ncnt1; n++)
+                            //-------vision ooff
+                            dbgVision_off.Rows.Clear();
+                            ncnt1 = 0;
+                            if (web_mesh_db1.visible_off != null)
+                                ncnt1 = web_mesh_db1.visible_off.Count;
+                            if (ncnt1 > 0)
                             {
-                                List<string> element = value[i].rotationY[n];
-                                dbgrotationY.Rows.Add(element[0], element[1]);
+                                for (int n = 0; n < ncnt1; n++)
+                                    dbgVision_off.Rows.Add(web_mesh_db1.visible_off[n]);
                             }
-                            //for (int n = 0; n < ncnt1; n++)
-                            //{
-                            //    int ircnt = value[i].rotationY[0].Count;
-                            //    for (int k = 0; k < ircnt; k++)
-                            //    {
-                            //        data1[0] = value[i].rotationY[n][k].item;
-                            //        data1[1] = value[i].rotationY[n][k].nrotatorvalue.ToString();
-                            //        dbgrotationY.Rows.Add(data1);
-                            //    }
-                            //}
-                        }
 
-                        //-------rotation Z
-                        dbgrotationZ.Rows.Clear();
-                        ncnt1 = 0;
-                        if (value[i].rotationZ != null)
-                            ncnt1 = value[i].rotationZ.Count;
-                        if (ncnt1 > 0)
-                        {
-                            for (int n = 0; n < ncnt1; n++)
+                            //-------lengthValue
+                            dbglengthValues.Rows.Clear();
+                            ncnt1 = 0;
+                            if (web_mesh_db1.lengthValues != null)
+                                ncnt1 = web_mesh_db1.lengthValues.Count;
+                            if (ncnt1 > 0)
                             {
-                                List<string> element = value[i].rotationZ[n];
-                                dbgrotationZ.Rows.Add(element[0], element[1]);
+                                for (int n = 0; n < ncnt1; n++)
+                                    dbglengthValues.Rows.Add(web_mesh_db1.lengthValues[n]);
                             }
-                            //for (int n = 0; n < ncnt1; n++)
-                            //{
-                            //    int ircnt = value[i].rotationZ[0].Count;
-                            //    for (int k = 0; k < ircnt; k++)
-                            //    {
-                            //        data1[0] = value[i].rotationZ[n][k].item;
-                            //        data1[1] = value[i].rotationZ[n][k].nrotatorvalue.ToString();
-                            //        dbgrotationZ.Rows.Add(data1);
-                            //    }
-                            //}
-                        }
 
+                            //-------rotation X
+                            dbgrotationX.Rows.Clear();
+                            ncnt1 = 0;
+                            int ncolcnt = dbgrotationX.ColumnCount;
+                            if (ncolcnt > 2) ncolcnt = 2;  // 현재는  항목이 2개이기에.
+                            string[] data1 = new string[ncolcnt];
+
+                            if (web_mesh_db1.rotationX != null)
+                                ncnt1 = web_mesh_db1.rotationX.Count;
+                            if (ncnt1 > 0)
+                            {
+                                for (int n = 0; n < ncnt1; n++)
+                                {
+                                    List<string> element = web_mesh_db1.rotationX[n];
+                                    dbgrotationX.Rows.Add(element[0], element[1]);
+                                }
+                                //for (int n = 0; n < ncnt1; n++)
+                                //{
+                                //    int ircnt = value[i].rotationX[0].Count;
+                                //    for(int k=0;k<ircnt;k++)
+                                //    {
+                                //        data1[0] = value[i].rotationX[n][k].item;
+                                //        data1[1] = value[i].rotationX[n][k].nrotatorvalue.ToString();
+                                //        dbgrotationX.Rows.Add(data1);
+                                //    }                             
+                                //}                                
+                            }
+
+                            //-------rotation Y
+                            dbgrotationY.Rows.Clear();
+                            ncnt1 = 0;
+                            if (web_mesh_db1.rotationY != null)
+                                ncnt1 = web_mesh_db1.rotationY.Count;
+                            if (ncnt1 > 0)
+                            {
+                                for (int n = 0; n < ncnt1; n++)
+                                {
+                                    List<string> element = web_mesh_db1.rotationY[n];
+                                    dbgrotationY.Rows.Add(element[0], element[1]);
+                                }
+                                //for (int n = 0; n < ncnt1; n++)
+                                //{
+                                //    int ircnt = value[i].rotationY[0].Count;
+                                //    for (int k = 0; k < ircnt; k++)
+                                //    {
+                                //        data1[0] = value[i].rotationY[n][k].item;
+                                //        data1[1] = value[i].rotationY[n][k].nrotatorvalue.ToString();
+                                //        dbgrotationY.Rows.Add(data1);
+                                //    }
+                                //}
+                            }
+
+                            //-------rotation Z
+                            dbgrotationZ.Rows.Clear();
+                            ncnt1 = 0;
+                            if (web_mesh_db1.rotationZ != null)
+                                ncnt1 = web_mesh_db1.rotationZ.Count;
+                            if (ncnt1 > 0)
+                            {
+                                for (int n = 0; n < ncnt1; n++)
+                                {
+                                    List<string> element = web_mesh_db1.rotationZ[n];
+                                    dbgrotationZ.Rows.Add(element[0], element[1]);
+                                }
+                                //for (int n = 0; n < ncnt1; n++)
+                                //{
+                                //    int ircnt = value[i].rotationZ[0].Count;
+                                //    for (int k = 0; k < ircnt; k++)
+                                //    {
+                                //        data1[0] = value[i].rotationZ[n][k].item;
+                                //        data1[1] = value[i].rotationZ[n][k].nrotatorvalue.ToString();
+                                //        dbgrotationZ.Rows.Add(data1);
+                                //    }
+                                //}
+                            }
+                        }
                         break;
                     }
                 }
@@ -946,167 +963,127 @@ namespace JsonFileParsing
                         value1.name = tbenumidname.Text.Trim();
                    // }
 
-                    value1.model_file_name = tbmodel_file_name.Text.Trim();
-
-                    //-------vision on
-                    int ncnt1 = dbgVision_on.Rows.Count;
-                    if (ncnt1 > 0)
+                    foreach(var web_mesh_db1 in value1.web_mesh_db)
                     {
-                        if(value1.visible_on == null)
-                        {
-                            value1.visible_on = new List<string>();
-                        }
-                        else
-                            value1.visible_on.Clear();
+                        web_mesh_db1.model_file_name = tbmodel_file_name.Text.Trim();
 
-                        for (int n = 0; n < ncnt1; n++)
+                        //-------vision on
+                        int ncnt1 = dbgVision_on.Rows.Count;
+                        if (ncnt1 > 0)
                         {
-                            if (dbgVision_on.Rows[n].Cells[0].Value != null)
-                                value1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
-                        }
-                        
-                          
-                    }
-
-                    //-------vision ooff                    
-                    ncnt1 = dbgVision_off.Rows.Count;
-                    if (ncnt1 > 0)
-                    {
-                        if (value1.visible_off == null)
-                        {
-                            value1.visible_off = new List<string>();
-                        }
-                        else
-                            value1.visible_off.Clear();
-
-                        for (int n = 0; n < ncnt1; n++)
-                        {
-                            if (dbgVision_off.Rows[n].Cells[0].Value != null)
-                                value1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
-                        }
-                       
-                    }
-
-                    //-------lengthValue
-                    ncnt1 = dbglengthValues.Rows.Count;
-                    if (ncnt1 > 0)
-                    {
-                        if (value1.lengthValues == null)
-                        {
-                            value1.lengthValues = new List<string>();
-                        }
-                        else
-                            value1.lengthValues.Clear();
-                        for (int n = 0; n < ncnt1; n++)
-                        {
-                            if (dbglengthValues.Rows[n].Cells[0].Value != null)
-                                value1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
-                        }
-                        
-                    }
-                    //-------rotation X
-                    ncnt1 = dbgrotationX.Rows.Count;
-                    if (ncnt1 > 0)
-                    {
-                        if (value1.rotationX == null)
-                        {
-                            value1.rotationX = new List<List<string>>();
-                        }
-                        else
-                            value1.rotationX.Clear();
-                        for (int n = 0; n < ncnt1; n++)
-                        {
-                            if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
+                            if (web_mesh_db1.visible_on == null)
                             {
-                                List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationX.Add(element);
+                                web_mesh_db1.visible_on = new List<string>();
+                            }
+                            else
+                                web_mesh_db1.visible_on.Clear();
+
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgVision_on.Rows[n].Cells[0].Value != null)
+                                    web_mesh_db1.visible_on.Add(dbgVision_on.Rows[n].Cells[0].Value.ToString());
+                            }
+
+
+                        }
+
+                        //-------vision ooff                    
+                        ncnt1 = dbgVision_off.Rows.Count;
+                        if (ncnt1 > 0)
+                        {
+                            if (web_mesh_db1.visible_off == null)
+                            {
+                                web_mesh_db1.visible_off = new List<string>();
+                            }
+                            else
+                                web_mesh_db1.visible_off.Clear();
+
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgVision_off.Rows[n].Cells[0].Value != null)
+                                    web_mesh_db1.visible_off.Add(dbgVision_off.Rows[n].Cells[0].Value.ToString());
+                            }
+
+                        }
+
+                        //-------lengthValue
+                        ncnt1 = dbglengthValues.Rows.Count;
+                        if (ncnt1 > 0)
+                        {
+                            if (web_mesh_db1.lengthValues == null)
+                            {
+                                web_mesh_db1.lengthValues = new List<string>();
+                            }
+                            else
+                                web_mesh_db1.lengthValues.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbglengthValues.Rows[n].Cells[0].Value != null)
+                                    web_mesh_db1.lengthValues.Add(dbglengthValues.Rows[n].Cells[0].Value.ToString());
+                            }
+
+                        }
+                        //-------rotation X
+                        ncnt1 = dbgrotationX.Rows.Count;
+                        if (ncnt1 > 0)
+                        {
+                            if (web_mesh_db1.rotationX == null)
+                            {
+                                web_mesh_db1.rotationX = new List<List<string>>();
+                            }
+                            else
+                                web_mesh_db1.rotationX.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };
+                                    web_mesh_db1.rotationX.Add(element);
+                                }
                             }
                         }
-                        
-                        //        List<rotatorvalue> elementX = new List<rotatorvalue>();
-                        //        for (int n = 0; n < ncnt1; n++)
-                        //        {
-                        //            if (dbgrotationX.Rows[n].Cells[0].Value != null && dbgrotationX.Rows[n].Cells[1].Value != null)
-                        //            {
-                        //                rotatorvalue _value = new rotatorvalue();
-                        //                _value.item = dbgrotationX.Rows[n].Cells[0].Value.ToString();
-                        //                _value.nrotatorvalue = int.Parse(dbgrotationX.Rows[n].Cells[1].Value.ToString());
-                        //                //  List<string> element = new List<string> { dbgrotationX.Rows[n].Cells[0].Value.ToString(), dbgrotationX.Rows[n].Cells[1].Value.ToString() };                                
-                        //                elementX.Add(_value);                        
-                        //            }
-                        //        }
-                        ///       value1.rotationX.Add(elementX);
-                    }
 
-                    ////-------rotation Y
-                    ///
-                    ncnt1 = dbgrotationY.Rows.Count;
-                    if (ncnt1 > 0)
-                    {
-                        if (value1.rotationY == null)
+                        ////-------rotation Y
+                        ///
+                        ncnt1 = dbgrotationY.Rows.Count;
+                        if (ncnt1 > 0)
                         {
-                            value1.rotationY = new List<List<string>>();
-                        }
-                        else
-                            value1.rotationY.Clear();
-                        for (int n = 0; n < ncnt1; n++)
-                        {
-                            if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
+                            if (web_mesh_db1.rotationY == null)
                             {
-                                List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationY.Add(element);
+                                web_mesh_db1.rotationY = new List<List<string>>();
+                            }
+                            else
+                                web_mesh_db1.rotationY.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
+                                    web_mesh_db1.rotationY.Add(element);
+                                }
                             }
                         }
-                        
 
-                        //List<rotatorvalue> elementY = new List<rotatorvalue>();
-                        //for (int n = 0; n < ncnt1; n++)
-                        //{
-                        //    if (dbgrotationY.Rows[n].Cells[0].Value != null && dbgrotationY.Rows[n].Cells[1].Value != null)
-                        //    {
-                        //        rotatorvalue _value = new rotatorvalue();
-                        //        _value.item = dbgrotationY.Rows[n].Cells[0].Value.ToString();
-                        //        _value.nrotatorvalue = int.Parse(dbgrotationY.Rows[n].Cells[1].Value.ToString());
-                        //        //List<string> element = new List<string> { dbgrotationY.Rows[n].Cells[0].Value.ToString(), dbgrotationY.Rows[n].Cells[1].Value.ToString() };
-                        //        elementY.Add(_value);
-                        //    }
-                        //}
-                        //value1.rotationY.Add(elementY);
-                    }
-
-                    ////-------rotation Z
-                    ///
-                    ncnt1 = dbgrotationZ.Rows.Count;
-                    if (ncnt1 > 0)
-                    {
-                        if (value1.rotationZ == null)
+                        ////-------rotation Z
+                        ///
+                        ncnt1 = dbgrotationZ.Rows.Count;
+                        if (ncnt1 > 0)
                         {
-                            value1.rotationZ = new List<List<string>>();
-                        }
-                        else
-                            value1.rotationZ.Clear();
-                        for (int n = 0; n < ncnt1; n++)
-                        {
-                            if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
+                            if (web_mesh_db1.rotationZ == null)
                             {
-                                List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
-                                value1.rotationZ.Add(element);
+                                web_mesh_db1.rotationZ = new List<List<string>>();
+                            }
+                            else
+                                web_mesh_db1.rotationZ.Clear();
+                            for (int n = 0; n < ncnt1; n++)
+                            {
+                                if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
+                                {
+                                    List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
+                                    web_mesh_db1.rotationZ.Add(element);
+                                }
                             }
                         }
-                       
-                        //List<rotatorvalue> elementZ = new List<rotatorvalue>();
-                        //for (int n = 0; n < ncnt1; n++)
-                        //{
-                        //    if (dbgrotationZ.Rows[n].Cells[0].Value != null && dbgrotationZ.Rows[n].Cells[1].Value != null)
-                        //    {
-                        //        rotatorvalue _value = new rotatorvalue();
-                        //        _value.item = dbgrotationZ.Rows[n].Cells[0].Value.ToString();
-                        //        _value.nrotatorvalue = int.Parse(dbgrotationZ.Rows[n].Cells[1].Value.ToString());
-                        //        //List<string> element = new List<string> { dbgrotationZ.Rows[n].Cells[0].Value.ToString(), dbgrotationZ.Rows[n].Cells[1].Value.ToString() };
-                        //        elementZ.Add(_value);
-                        //    }
-                        //}
-                        //value1.rotationZ.Add(elementZ);
                     }
                     idxcnt++;
                     break;
@@ -1253,24 +1230,27 @@ namespace JsonFileParsing
                     foreach (var value1 in option1.values)
                     {
                         sValueName = tvOptionValue.Nodes[idx].Text;
-                        if (value1.lengthValues == null)
+                        foreach(var web_mesh_db1 in value1.web_mesh_db)
                         {
-                            value1.lengthValues = new List<string>();
-                        }
-                        else
-                            value1.lengthValues.Clear();
+                            if (web_mesh_db1.lengthValues == null)
+                            {
+                                web_mesh_db1.lengthValues = new List<string>();
+                            }
+                            else
+                                web_mesh_db1.lengthValues.Clear();
 
-                        if (idx == 0)
-                        {
-                            value1.lengthValues.Add("1:0");
-                            sFirtvaluename = sValueName;
-                        }
-                        else
-                        {                            
-                            string sTemp1 = "";
-                            int ivlaue = int.Parse(sValueName) - int.Parse(sFirtvaluename);
-                            sTemp1 = "1:" + ivlaue.ToString();
-                            value1.lengthValues.Add(sTemp1);
+                            if (idx == 0)
+                            {
+                                web_mesh_db1.lengthValues.Add("1:0");
+                                sFirtvaluename = sValueName;
+                            }
+                            else
+                            {
+                                string sTemp1 = "";
+                                int ivlaue = int.Parse(sValueName) - int.Parse(sFirtvaluename);
+                                sTemp1 = "1:" + ivlaue.ToString();
+                                web_mesh_db1.lengthValues.Add(sTemp1);
+                            }
                         }
                         idx++;
                     }
@@ -1317,31 +1297,33 @@ namespace JsonFileParsing
                                 int icnt = 0;
                                 foreach (var value1 in option1.values)
                                 {
-                                    if (value1.visible_off == null)
+                                    foreach(var web_mesh_db1 in value1.web_mesh_db)
                                     {
-                                        value1.visible_off = new List<string>();
-                                    }
-                                    else
-                                        value1.visible_off.Clear();
+                                        if (web_mesh_db1.visible_off == null)
+                                        {
+                                            web_mesh_db1.visible_off = new List<string>();
+                                        }
+                                        else
+                                            web_mesh_db1.visible_off.Clear();
 
-                                    if (value1.visible_on == null)
-                                    {
-                                        value1.visible_on = new List<string>();
-                                    }
-                                    else
-                                        value1.visible_on.Clear();
-                                    if (icnt == 0)
-                                    {
-                                        value1.visible_on.Add("Rod,Male");
-                                        value1.visible_off.Add("Rod,-Male");
-                                    }
-                                    else if (icnt == 1)
-                                    {
-                                        value1.visible_on.Add("Rod,Female");
-                                        value1.visible_off.Add("Rod,-Female");
+                                        if (web_mesh_db1.visible_on == null)
+                                        {
+                                            web_mesh_db1.visible_on = new List<string>();
+                                        }
+                                        else
+                                            web_mesh_db1.visible_on.Clear();
+                                        if (icnt == 0)
+                                        {
+                                            web_mesh_db1.visible_on.Add("Rod,Male");
+                                            web_mesh_db1.visible_off.Add("Rod,-Male");
+                                        }
+                                        else if (icnt == 1)
+                                        {
+                                            web_mesh_db1.visible_on.Add("Rod,Female");
+                                            web_mesh_db1.visible_off.Add("Rod,-Female");
+                                        }
                                     }
                                     icnt++;
-
                                 }
                             }
                             else
@@ -1353,34 +1335,37 @@ namespace JsonFileParsing
                                     int icnt = 0;
                                     foreach (var value1 in option1.values)
                                     {
-                                        if (value1.visible_off == null)
+                                        foreach (var web_mesh_db1 in value1.web_mesh_db)
                                         {
-                                            value1.visible_off = new List<string>();
-                                        }
-                                        else
-                                            value1.visible_off.Clear();
+                                            if (web_mesh_db1.visible_off == null)
+                                            {
+                                                web_mesh_db1.visible_off = new List<string>();
+                                            }
+                                            else
+                                                web_mesh_db1.visible_off.Clear();
 
-                                        if (value1.visible_on == null)
-                                        {
-                                            value1.visible_on = new List<string>();
-                                        }
-                                        else
-                                            value1.visible_on.Clear();
+                                            if (web_mesh_db1.visible_on == null)
+                                            {
+                                                web_mesh_db1.visible_on = new List<string>();
+                                            }
+                                            else
+                                                web_mesh_db1.visible_on.Clear();
 
-                                        if (icnt == 0)
-                                        {
-                                            value1.visible_on.Add("");
-                                            value1.visible_off.Add("Acc_RodEnd");
-                                        }
-                                        else if (icnt == 1)
-                                        {
-                                            value1.visible_on.Add("Acc_RodEnd_I");
-                                            value1.visible_off.Add("Acc_RodEnd_Y");
-                                        }
-                                        else if (icnt == 2)
-                                        {
-                                            value1.visible_on.Add("Acc_RodEnd_Y");
-                                            value1.visible_off.Add("Acc_RodEnd_I");
+                                            if (icnt == 0)
+                                            {
+                                                web_mesh_db1.visible_on.Add("");
+                                                web_mesh_db1.visible_off.Add("Acc_RodEnd");
+                                            }
+                                            else if (icnt == 1)
+                                            {
+                                                web_mesh_db1.visible_on.Add("Acc_RodEnd_I");
+                                                web_mesh_db1.visible_off.Add("Acc_RodEnd_Y");
+                                            }
+                                            else if (icnt == 2)
+                                            {
+                                                web_mesh_db1.visible_on.Add("Acc_RodEnd_Y");
+                                                web_mesh_db1.visible_off.Add("Acc_RodEnd_I");
+                                            }
                                         }
                                         icnt++;
 
@@ -1395,101 +1380,104 @@ namespace JsonFileParsing
                                         int icnt = 0;
                                         foreach (var value1 in option1.values)
                                         {
-                                            if (value1.visible_off == null)
+                                            foreach (var web_mesh_db1 in value1.web_mesh_db)
                                             {
-                                                value1.visible_off = new List<string>();
-                                            }
-                                            else
-                                                value1.visible_off.Clear();
+                                                if (web_mesh_db1.visible_off == null)
+                                                {
+                                                    web_mesh_db1.visible_off = new List<string>();
+                                                }
+                                                else
+                                                    web_mesh_db1.visible_off.Clear();
 
-                                            if (value1.visible_on == null)
-                                            {
-                                                value1.visible_on = new List<string>();
-                                            }
-                                            else
-                                                value1.visible_on.Clear();
+                                                if (web_mesh_db1.visible_on == null)
+                                                {
+                                                    web_mesh_db1.visible_on = new List<string>();
+                                                }
+                                                else
+                                                    web_mesh_db1.visible_on.Clear();
 
-                                            if (value1.name.Trim() == "B")
-                                            {
-                                                value1.visible_on.Add("");
-                                                value1.visible_off.Add("Acc_HeadSide,-Bellows");
-                                                value1.visible_off.Add("Acc_RodSide,-Bellows");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "BZ")
-                                            {
-                                                value1.visible_on.Add("Body,Cut");
-                                                value1.visible_off.Add("Body,-Cut");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "C")
-                                            {
-                                                value1.visible_on.Add("Acc_HeadSide_C");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                                value1.visible_off.Add("Acc_HeadSide,-_C");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "D")
-                                            {
-                                                value1.visible_on.Add("Acc_HeadSide_D");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                                value1.visible_off.Add("Acc_HeadSide,-_D");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "E")
-                                            {
-                                                value1.visible_on.Add("Acc_HeadSide_E");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                                value1.visible_off.Add("Acc_HeadSide,-_E");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "F")
-                                            {
-                                                value1.visible_on.Add("Acc_RodSide_F");
-                                                value1.visible_off.Add("Acc_HeadSide");
-                                                value1.visible_off.Add("Acc_RodSide,-_F");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "FZ")
-                                            {
-                                                value1.visible_on.Add("Acc_RodSide_F");
-                                                value1.visible_off.Add("Acc_HeadSide");
-                                                value1.visible_off.Add("Acc_RodSide,-_F");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "G")
-                                            {
-                                                value1.visible_on.Add("Acc_HeadSide_G");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                                value1.visible_off.Add("Acc_HeadSide,-_G");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "L")
-                                            {
-                                                value1.visible_on.Add("Foot");
-                                                value1.visible_off.Add("Acc_HeadSide");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                            }
-                                            else if (value1.name.Trim() == "T")
-                                            {
-                                                value1.visible_on.Add("Acc_HeadSide_T");
-                                                value1.visible_off.Add("Acc_RodSide");
-                                                value1.visible_off.Add("Acc_HeadSide,-_T");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "U")
-                                            {
-                                                value1.visible_on.Add("");
-                                                value1.visible_on.Add("Acc_RodSide_U");
-                                                value1.visible_off.Add("Acc_HeadSide");
-                                                value1.visible_off.Add("Acc_RodSide,-_U");
-                                                value1.visible_off.Add("Foot");
-                                            }
-                                            else if (value1.name.Trim() == "UZ")
-                                            {
-                                                value1.visible_on.Add("Acc_RodSide_U");
-                                                value1.visible_off.Add("Acc_HeadSide");
-                                                value1.visible_off.Add("Foot");
+                                                if (value1.name.Trim() == "B")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-Bellows");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide,-Bellows");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "BZ")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Body,Cut");
+                                                    web_mesh_db1.visible_off.Add("Body,-Cut");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "C")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_HeadSide_C");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-_C");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "D")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_HeadSide_D");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-_D");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "E")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_HeadSide_E");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-_E");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "F")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_RodSide_F");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide,-_F");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "FZ")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_RodSide_F");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide,-_F");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "G")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_HeadSide_G");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-_G");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "L")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Foot");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                }
+                                                else if (value1.name.Trim() == "T")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_HeadSide_T");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide,-_T");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "U")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("");
+                                                    web_mesh_db1.visible_on.Add("Acc_RodSide_U");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide");
+                                                    web_mesh_db1.visible_off.Add("Acc_RodSide,-_U");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
+                                                else if (value1.name.Trim() == "UZ")
+                                                {
+                                                    web_mesh_db1.visible_on.Add("Acc_RodSide_U");
+                                                    web_mesh_db1.visible_off.Add("Acc_HeadSide");
+                                                    web_mesh_db1.visible_off.Add("Foot");
+                                                }
                                             }
                                         }
                                     }
@@ -1504,48 +1492,50 @@ namespace JsonFileParsing
                                                 int icnt = 0;
                                                 foreach (var value1 in option1.values)
                                                 {
-                                                    if (value1.visible_off == null)
+                                                    foreach (var web_mesh_db1 in value1.web_mesh_db)
                                                     {
-                                                        value1.visible_off = new List<string>();
-                                                    }
-                                                    else
-                                                        value1.visible_off.Clear();
+                                                        if (web_mesh_db1.visible_off == null)
+                                                        {
+                                                            web_mesh_db1.visible_off = new List<string>();
+                                                        }
+                                                        else
+                                                            web_mesh_db1.visible_off.Clear();
 
-                                                    if (value1.visible_on == null)
-                                                    {
-                                                        value1.visible_on = new List<string>();
-                                                    }
-                                                    else
-                                                        value1.visible_on.Clear();
+                                                        if (web_mesh_db1.visible_on == null)
+                                                        {
+                                                            web_mesh_db1.visible_on = new List<string>();
+                                                        }
+                                                        else
+                                                            web_mesh_db1.visible_on.Clear();
 
-                                                    if (value1.name.Trim() == "")
-                                                    {
-                                                        value1.visible_on.Add("");
-                                                        value1.visible_off.Add("Bellows_,RodSide");
+                                                        if (value1.name.Trim() == "")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("");
+                                                            web_mesh_db1.visible_off.Add("Bellows_,RodSide");
+                                                        }
+                                                        else if (value1.name.Trim() == "J")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,RodSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
+                                                        else if (value1.name.Trim() == "K")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,RodSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
+                                                        else if (value1.name.Trim() == "JJ")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,RodSide");
+                                                            web_mesh_db1.visible_on.Add("Bellows_,HeadSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
+                                                        else if (value1.name.Trim() == "KK")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,RodSide");
+                                                            web_mesh_db1.visible_on.Add("Bellows_,HeadSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
                                                     }
-                                                    else if (value1.name.Trim() == "J")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,RodSide");
-                                                        value1.visible_off.Add("");
-                                                    }
-                                                    else if (value1.name.Trim() == "K")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,RodSide");
-                                                        value1.visible_off.Add("");
-                                                    }
-                                                    else if (value1.name.Trim() == "JJ")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,RodSide");
-                                                        value1.visible_on.Add("Bellows_,HeadSide");
-                                                        value1.visible_off.Add("");
-                                                    }
-                                                    else if (value1.name.Trim() == "KK")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,RodSide");
-                                                        value1.visible_on.Add("Bellows_,HeadSide");
-                                                        value1.visible_off.Add("");
-                                                    }
-
                                                 }
                                             }
                                             else if (option1.id == 98)
@@ -1554,34 +1544,37 @@ namespace JsonFileParsing
                                                 int icnt = 0;
                                                 foreach (var value1 in option1.values)
                                                 {
-                                                    if (value1.visible_off == null)
+                                                    foreach (var web_mesh_db1 in value1.web_mesh_db)
                                                     {
-                                                        value1.visible_off = new List<string>();
-                                                    }
-                                                    else
-                                                        value1.visible_off.Clear();
+                                                        if (web_mesh_db1.visible_off == null)
+                                                        {
+                                                            web_mesh_db1.visible_off = new List<string>();
+                                                        }
+                                                        else
+                                                            web_mesh_db1.visible_off.Clear();
 
-                                                    if (value1.visible_on == null)
-                                                    {
-                                                        value1.visible_on = new List<string>();
-                                                    }
-                                                    else
-                                                        value1.visible_on.Clear();
+                                                        if (web_mesh_db1.visible_on == null)
+                                                        {
+                                                            web_mesh_db1.visible_on = new List<string>();
+                                                        }
+                                                        else
+                                                            web_mesh_db1.visible_on.Clear();
 
-                                                    if (value1.name.Trim() == "")
-                                                    {
-                                                        value1.visible_on.Add("");
-                                                        value1.visible_off.Add("Bellows_,HeadSide");
-                                                    }
-                                                    else if (value1.name.Trim() == "J")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,HeadSide");
-                                                        value1.visible_off.Add("");
-                                                    }
-                                                    else if (value1.name.Trim() == "K")
-                                                    {
-                                                        value1.visible_on.Add("Bellows_,HeadSide");
-                                                        value1.visible_off.Add("");
+                                                        if (value1.name.Trim() == "")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("");
+                                                            web_mesh_db1.visible_off.Add("Bellows_,HeadSide");
+                                                        }
+                                                        else if (value1.name.Trim() == "J")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,HeadSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
+                                                        else if (value1.name.Trim() == "K")
+                                                        {
+                                                            web_mesh_db1.visible_on.Add("Bellows_,HeadSide");
+                                                            web_mesh_db1.visible_off.Add("");
+                                                        }
                                                     }
                                                 }
                                             }
